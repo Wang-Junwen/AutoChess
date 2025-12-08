@@ -16,12 +16,20 @@ var dragging: bool = false
 func _ready() -> void:
 	assert(target, "No target set for DragAndDrop")
 	# unbind(1) 会忽略掉这个信号连接的最后一个参数shape_idx
-	target.input_event.connect(_on_target_input_event.unbind(1)) 
+	target.input_event.connect(_on_target_input_event.unbind(1))
 
 
 func _process(_delta: float) -> void:
 	if dragging and target:
 		target.global_position = target.get_global_mouse_position() + offset
+
+
+func _input(event: InputEvent) -> void:
+	# 取消拖拽 和 放下，需要放到input中，鼠标移动过快时，有可能鼠标没有点击到target上
+	if dragging and event.is_action_pressed("cancel_drag"):
+		_cancel_dragging()
+	elif dragging and event.is_action_released("select"):
+		_drop()
 
 
 func _start_dragging() -> void:
@@ -57,9 +65,5 @@ func _on_target_input_event(_viewport: Node, event: InputEvent) -> void:
 	if not dragging and dragging_object:
 		return
 
-	if dragging and event.is_action_pressed("cancel_drag"):
-		_cancel_dragging()
-	elif not dragging and event.is_action_pressed("select"):
+	if not dragging and event.is_action_pressed("select"):
 		_start_dragging()
-	elif dragging and event.is_action_released("select"):
-		_drop()

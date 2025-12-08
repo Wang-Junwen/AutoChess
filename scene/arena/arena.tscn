@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=4 uid="uid://cgkac45wxfbta"]
+[gd_scene load_steps=8 format=4 uid="uid://cgkac45wxfbta"]
 
 [ext_resource type="TileSet" uid="uid://da43mj62e07ui" path="res://scene/arena/tileset.tres" id="1_khgbj"]
 [ext_resource type="Script" uid="uid://d0y8fraa83x28" path="res://scene/arena/arena.gd" id="1_nq1he"]
 [ext_resource type="Texture2D" uid="uid://mbxv0ayrsu3d" path="res://assets/sprites/star_particle.png" id="2_bhymu"]
+[ext_resource type="PackedScene" uid="uid://bo1mxvq5ar06q" path="res://scene/unit/unit.tscn" id="4_vf884"]
 
 [sub_resource type="Curve" id="Curve_nq1he"]
 _data = [Vector2(0.00166667, 0.000609994), 0.0, 0.0, 0, 0, Vector2(0.183333, 1), 0.0, 0.0, 0, 0, Vector2(0.818333, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0204393), 0.0, 0.0, 0, 0]
@@ -79,3 +80,9 @@ metadata/_edit_lock_ = true
 
 [node name="Highlight" type="TileMapLayer" parent="Bench"]
 tile_set = ExtResource("1_khgbj")
+
+[node name="Unit" parent="." instance=ExtResource("4_vf884")]
+position = Vector2(224, 96)
+
+[node name="Unit2" parent="." instance=ExtResource("4_vf884")]
+position = Vector2(343, 154)
