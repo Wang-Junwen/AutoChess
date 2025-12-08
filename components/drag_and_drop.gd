@@ -15,7 +15,8 @@ var dragging: bool = false
 
 func _ready() -> void:
 	assert(target, "No target set for DragAndDrop")
-	target.input_event.connect(_on_target_input_event.unbind(1)) # unbind(1) 会忽略掉这个信号连接的最后一个参数shape_idx
+	# unbind(1) 会忽略掉这个信号连接的最后一个参数shape_idx
+	target.input_event.connect(_on_target_input_event.unbind(1)) 
 
 
 func _process(_delta: float) -> void:
