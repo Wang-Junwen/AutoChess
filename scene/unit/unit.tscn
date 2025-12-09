@@ -77,9 +77,9 @@ target = NodePath("..")
 [node name="VelocityBasedRotation" type="Node" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("5_rkgpu")
 target = NodePath("../Visuals/Skin")
-lerp_seconds = 1.5
-rotation_multiplier = 80
-x_velocity_threshold = 1.0
+lerp_seconds = 0.3
+rotation_multiplier = 40
+x_velocity_threshold = 60.0
 
 [node name="OutlineHighlighter" type="Node" parent="." node_paths=PackedStringArray("visuals")]
 script = ExtResource("7_0o3le")
