@@ -3,9 +3,7 @@ extends Node2D
 
 # 当单位在网格上的状态发生变化时发出信号
 signal unit_grid_changed()
-signal unit_added(unit: Unit, tile: Vector2i)
-signal unit_removed(unit: Unit, tile: Vector2i)
-signal unit_moved(unit: Unit, old_tile: Vector2i, new_tile: Vector2i)
+
 
 # 网格尺寸（例如 Vector2i(8, 8) 表示 8x8 的棋盘）
 # 用于判断坐标是否越界
@@ -85,7 +83,6 @@ func add_unit(tile: Vector2i, unit: Unit) -> void:
 		return
 
 	units[tile] = unit
-	unit_added.emit(unit, tile)
 	unit_grid_changed.emit()
 
 
@@ -96,5 +93,4 @@ func remove_unit(tile: Vector2i) -> void:
 		return
 
 	units[tile] = null
-	unit_removed.emit(unit, tile)
 	unit_grid_changed.emit()
