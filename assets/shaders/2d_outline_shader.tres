@@ -6,4 +6,4 @@
 resource_local_to_scene = true
 shader = ExtResource("1_jrprq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 2
+shader_parameter/line_thickness = 0

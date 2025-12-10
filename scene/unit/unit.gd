@@ -2,6 +2,8 @@
 class_name Unit
 extends Area2D
 
+signal quick_sell_pressed
+
 @export var stats: UnitStats:
 	set = _set_stats
 
@@ -12,12 +14,22 @@ extends Area2D
 @onready var velocity_based_rotation: VelocityBasedRotation = $VelocityBasedRotation
 @onready var outline_highlighter: OutlineHighlighter = $OutlineHighlighter
 
+var is_hovered: bool = false
+
 
 func _ready():
 	# 忽略编辑器模式下的拖拽
 	if not Engine.is_editor_hint():
 		drag_and_drop.drag_started.connect(_on_drag_started)
 		drag_and_drop.drag_canceled.connect(_on_drag_canceled)
+
+
+func _input(event: InputEvent) -> void:
+	if not is_hovered:
+		return
+
+	if event.is_action_pressed("quick_sell"):
+		quick_sell_pressed.emit()
 
 
 func _set_stats(new_stats: UnitStats) -> void:
@@ -36,6 +48,7 @@ func _set_stats(new_stats: UnitStats) -> void:
 func _on_mouse_entered() -> void:
 	if drag_and_drop.dragging:
 		return
+	is_hovered = true
 	# 高亮
 	outline_highlighter.highlight()
 	z_index = 1
@@ -44,6 +57,7 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	if drag_and_drop.dragging:
 		return
+	is_hovered = false
 	# 取消高亮
 	outline_highlighter.clear_highlight()
 	z_index = 0

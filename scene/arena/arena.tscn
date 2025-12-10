@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://cgkac45wxfbta"]
+[gd_scene load_steps=17 format=4 uid="uid://cgkac45wxfbta"]
 
 [ext_resource type="TileSet" uid="uid://da43mj62e07ui" path="res://scene/arena/tileset.tres" id="1_khgbj"]
 [ext_resource type="Script" uid="uid://d0y8fraa83x28" path="res://scene/arena/arena.gd" id="1_nq1he"]
@@ -11,6 +11,8 @@
 [ext_resource type="Script" uid="uid://dgoc5p373yitq" path="res://components/unit_mover.gd" id="8_afgd6"]
 [ext_resource type="Resource" uid="uid://dvhulyq22ajca" path="res://data/units/arthur.tres" id="9_qvpqk"]
 [ext_resource type="Script" uid="uid://mgia8p28gu3k" path="res://components/unit_spawner.gd" id="11_il7u2"]
+[ext_resource type="PackedScene" uid="uid://dgabgcwyjare2" path="res://scene/sell_portal/sell_portal.tscn" id="12_xgae6"]
+[ext_resource type="Resource" uid="uid://kkfwn02pcskk" path="res://data/player/player_stats.tres" id="13_k35wp"]
 
 [sub_resource type="Curve" id="Curve_nq1he"]
 _data = [Vector2(0.00166667, 0.000609994), 0.0, 0.0, 0, 0, Vector2(0.183333, 1), 0.0, 0.0, 0, 0, Vector2(0.818333, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0204393), 0.0, 0.0, 0, 0]
@@ -117,14 +119,14 @@ highlight_layer = NodePath("../Highlight")
 tile = Vector2i(3, 0)
 
 [node name="Unit" parent="." instance=ExtResource("4_vf884")]
-position = Vector2(64, 256)
+position = Vector2(224, 224)
 
 [node name="Unit2" parent="." instance=ExtResource("4_vf884")]
-position = Vector2(64, 192)
+position = Vector2(224, 160)
 stats = ExtResource("8_3kq5i")
 
 [node name="Unit3" parent="." instance=ExtResource("4_vf884")]
-position = Vector2(64, 96)
+position = Vector2(224, 64)
 stats = ExtResource("9_qvpqk")
 
 [node name="UnitSpawner" type="Node" parent="." node_paths=PackedStringArray("bench", "game_area")]
@@ -135,3 +137,7 @@ game_area = NodePath("../GameArea")
 [node name="UnitMover" type="Node" parent="." node_paths=PackedStringArray("play_areas")]
 script = ExtResource("8_afgd6")
 play_areas = [NodePath("../GameArea"), NodePath("../Bench")]
+
+[node name="SellPortal" parent="." instance=ExtResource("12_xgae6")]
+position = Vector2(80, 288)
+palyer_stats = ExtResource("13_k35wp")
