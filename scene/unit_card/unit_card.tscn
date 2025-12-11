@@ -13,6 +13,7 @@ font = ExtResource("1_bl25k")
 font_color = Color(0.6, 0.772549, 0.87451, 0.607843)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8esua"]
+resource_local_to_scene = true
 bg_color = Color(0.0867257, 0.211524, 0.116546, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lowrg"]
@@ -25,6 +26,7 @@ border_width_bottom = 2
 border_color = Color(0.0862745, 0.211765, 0.117647, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6dta1"]
+resource_local_to_scene = true
 atlas = ExtResource("3_gakxq")
 region = Rect2(32, 96, 32, 32)
 

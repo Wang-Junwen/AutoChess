@@ -27,12 +27,6 @@ func _ready() -> void:
 	player_stats.changed.connect(_on_player_stats_changed)
 	_on_player_stats_changed()
 
-	unit_bought.connect(
-		func(us: UnitStats):
-			print("Unit bought: ", us)
-			print("gold: ", player_stats.gold)
-	)
-
 
 func _on_player_stats_changed() -> void:
 	if not unit_stats:

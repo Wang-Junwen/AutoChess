@@ -1,6 +1,7 @@
 class_name SellPortal
 extends Area2D
 
+@export var unit_pool: UnitPool
 @export var palyer_stats: PlayerStats
 
 @onready var outline_highlighter: OutlineHighlighter = $OutlineHighlighter
@@ -29,8 +30,8 @@ func _on_unit_dropped(_starting_position: Vector2, unit: Unit) -> void:
 func _sell_unit(unit: Unit) -> void:
 	palyer_stats.gold += unit.stats.get_gold_value()
 	# TODO: 返还物品
-	# TODO：返回units到unit pool
-	print("player gold:", palyer_stats.gold)
+	unit_pool.add_unit(unit.stats)
+	print(unit_pool.unit_pool)
 
 	unit.queue_free()
 
