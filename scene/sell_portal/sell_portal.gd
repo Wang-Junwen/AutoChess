@@ -3,6 +3,7 @@ extends Area2D
 
 @export var unit_pool: UnitPool
 @export var palyer_stats: PlayerStats
+@export var sell_sound: AudioStream
 
 @onready var outline_highlighter: OutlineHighlighter = $OutlineHighlighter
 @onready var gold: HBoxContainer = %Gold
@@ -32,6 +33,7 @@ func _sell_unit(unit: Unit) -> void:
 	# TODO: 返还物品
 	unit_pool.add_unit(unit.stats)
 	unit.queue_free()
+	SFXPlayer.play(sell_sound)
 
 
 func _on_area_entered(unit: Unit) -> void:
