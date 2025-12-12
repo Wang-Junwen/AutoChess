@@ -31,8 +31,6 @@ func _sell_unit(unit: Unit) -> void:
 	palyer_stats.gold += unit.stats.get_gold_value()
 	# TODO: 返还物品
 	unit_pool.add_unit(unit.stats)
-	print(unit_pool.unit_pool)
-
 	unit.queue_free()
 
 

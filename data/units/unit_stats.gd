@@ -22,6 +22,7 @@ const RARITY_COLORS = {
 @export var gold_cost := 1
 @export_range(1, 3) var tier := 1:
 	set = _set_tier
+@export var traits: Array[Trait]
 @export var pool_count := 5
 
 

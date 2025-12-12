@@ -61,6 +61,7 @@ theme_override_constants/separation = 7
 
 [node name="RerollButton" parent="Bottom/RerollAndXPTracker" instance=ExtResource("4_0ed41")]
 layout_mode = 2
+focus_mode = 0
 
 [node name="XPTracker" parent="Bottom/RerollAndXPTracker" instance=ExtResource("5_rwv1s")]
 layout_mode = 2

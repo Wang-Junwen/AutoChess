@@ -4,7 +4,6 @@ extends Node2D
 # 当单位在网格上的状态发生变化时发出信号
 signal unit_grid_changed()
 
-
 # 网格尺寸（例如 Vector2i(8, 8) 表示 8x8 的棋盘）
 # 用于判断坐标是否越界
 @export var size: Vector2i
@@ -50,13 +49,13 @@ func get_all_units() -> Array:
 
 
 # 检查坐标是否在网格范围内
-func is_tile_valid(tile: Vector2i) -> bool:
+func _is_tile_valid(tile: Vector2i) -> bool:
 	return tile.x >= 0 and tile.x < size.x and tile.y >= 0 and tile.y < size.y
 
 
 # 获取指定格子的单位，如果为空或越界则返回 null
 func get_unit_at(tile: Vector2i) -> Unit:
-	if not is_tile_valid(tile):
+	if not _is_tile_valid(tile):
 		return null
 	return units.get(tile)
 
@@ -74,7 +73,7 @@ func get_unit_tile(unit: Unit) -> Vector2i:
 
 # 将单位放置到指定格子
 func add_unit(tile: Vector2i, unit: Unit) -> void:
-	if not is_tile_valid(tile):
+	if not _is_tile_valid(tile):
 		push_warning("UnitGrid: Cannot add unit to invalid tile %s (Grid Size: %s)" % [tile, size])
 		return
 
@@ -83,6 +82,7 @@ func add_unit(tile: Vector2i, unit: Unit) -> void:
 		return
 
 	units[tile] = unit
+	unit.tree_exited.connect(_on_unit_tree_exited.bind(unit, tile))
 	unit_grid_changed.emit()
 
 
@@ -92,5 +92,14 @@ func remove_unit(tile: Vector2i) -> void:
 	if not unit:
 		return
 
+	unit.tree_exited.disconnect(_on_unit_tree_exited)
 	units[tile] = null
 	unit_grid_changed.emit()
+
+
+# sell_unit后，当单位从树中移除时，将其从网格中移除
+func _on_unit_tree_exited(unit: Unit, tile: Vector2i) -> void:
+	# 添加判断是否是queue_free触发的 tree_exited
+	if unit.is_queued_for_deletion():
+		units[tile] = null
+		unit_grid_changed.emit()

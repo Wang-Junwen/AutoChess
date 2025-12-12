@@ -1,12 +1,14 @@
-[gd_scene load_steps=13 format=3 uid="uid://bo1mxvq5ar06q"]
+[gd_scene load_steps=15 format=3 uid="uid://bo1mxvq5ar06q"]
 
 [ext_resource type="Script" uid="uid://dyhibvturgo2q" path="res://scene/unit/unit.gd" id="1_422ul"]
 [ext_resource type="Texture2D" uid="uid://cx1ivjobggp8n" path="res://assets/sprites/rogues.png" id="1_fmkjs"]
 [ext_resource type="Resource" uid="uid://et153h23ioel" path="res://data/units/bjorn.tres" id="2_qt1e6"]
 [ext_resource type="Material" uid="uid://bb8m5fhpi4wqn" path="res://assets/shaders/2d_outline_shader.tres" id="3_855lp"]
 [ext_resource type="Script" uid="uid://dywq05j2k0py0" path="res://components/drag_and_drop.gd" id="4_3j4cu"]
+[ext_resource type="PackedScene" uid="uid://b6mqgtef78dnj" path="res://scene/tier_icon/tier_icon.tscn" id="5_0o3le"]
 [ext_resource type="Script" uid="uid://dnxeo3m0dwe0n" path="res://components/velocity_based_rotation.gd" id="5_rkgpu"]
 [ext_resource type="Script" uid="uid://cn7qt5ku8iorl" path="res://components/outline_highlighter.gd" id="7_0o3le"]
+[ext_resource type="Script" uid="uid://37ob25ia6teh" path="res://components/unit_animations.gd" id="9_glnlk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fmkjs"]
 size = Vector2(36, 36)
@@ -70,6 +72,11 @@ theme_override_styles/background = SubResource("StyleBoxFlat_qt1e6")
 theme_override_styles/fill = SubResource("StyleBoxFlat_3j4cu")
 show_percentage = false
 
+[node name="TierIcon" parent="." instance=ExtResource("5_0o3le")]
+offset_top = -12.0
+offset_bottom = -2.0
+stats = ExtResource("2_qt1e6")
+
 [node name="DragAndDrop" type="Node" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("4_3j4cu")
 target = NodePath("..")
@@ -86,6 +93,11 @@ script = ExtResource("7_0o3le")
 visuals = NodePath("../Visuals")
 outline_color = Color(1, 1, 1, 1)
 outline_thickness = 2
+
+[node name="UnitAnimations" type="Node" parent="." node_paths=PackedStringArray("unit")]
+script = ExtResource("9_glnlk")
+unit = NodePath("..")
+metadata/_custom_type_script = "uid://37ob25ia6teh"
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
