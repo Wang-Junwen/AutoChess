@@ -13,7 +13,7 @@ func _ready() -> void:
 
 
 func _on_player_stats_changed() -> void:
-	var has_enough_gold = player_stats.gold >= 2
+	var has_enough_gold := player_stats.gold >= 2
 	disabled = not has_enough_gold
 
 	if has_enough_gold:

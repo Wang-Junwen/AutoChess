@@ -26,7 +26,7 @@ var border_color: Color
 
 func _ready() -> void:
 	player_stats.changed.connect(_on_player_stats_changed)
-	_on_player_stats_changed()
+	# _on_player_stats_changed()
 
 
 func _on_player_stats_changed() -> void:
@@ -45,18 +45,15 @@ func _on_player_stats_changed() -> void:
 func _set_unit_stats(value: UnitStats) -> void:
 	unit_stats = value
 
-	if not is_node_ready():
-		await ready
+	# 检查最后一个节点是否有效，即 所有节点准备完毕
+	if not is_instance_valid(empty_placeholder):
+		return
 
 	if not unit_stats:
 		empty_placeholder.show()
 		disabled = true
 		bought = true
 		return
-
-	empty_placeholder.hide()
-	disabled = false
-	bought = false
 
 	border_color = UnitStats.RARITY_COLORS[unit_stats.rarity]
 	border_sb.border_color = border_color
@@ -65,6 +62,7 @@ func _set_unit_stats(value: UnitStats) -> void:
 	unit_name.text = unit_stats.name
 	gold_cost.text = str(unit_stats.gold_cost)
 	unit_icon.texture.region.position = Vector2(unit_stats.skin_coordinates) * Arena.CELL_SIZE
+	_on_player_stats_changed()
 
 
 func _on_pressed() -> void:
@@ -76,6 +74,7 @@ func _on_pressed() -> void:
 	player_stats.gold -= unit_stats.gold_cost
 	unit_bought.emit(unit_stats)
 	SFXPlayer.play(buy_sound)
+
 
 func _on_mouse_entered() -> void:
 	if not disabled:

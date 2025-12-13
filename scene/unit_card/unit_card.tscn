@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://bxqck03i6b353" path="res://scene/unit_card/unit_card.gd" id="1_w8wlp"]
 [ext_resource type="Resource" uid="uid://kkfwn02pcskk" path="res://data/player/player_stats.tres" id="2_s6iqp"]
 [ext_resource type="Texture2D" uid="uid://c4awhqfup7o2k" path="res://assets/sprites/gold.png" id="2_w8wlp"]
+[ext_resource type="Resource" uid="uid://eacxidprrab" path="res://data/units/harry.tres" id="3_8esua"]
 [ext_resource type="Texture2D" uid="uid://cx1ivjobggp8n" path="res://assets/sprites/rogues.png" id="3_gakxq"]
-[ext_resource type="Resource" uid="uid://dvhulyq22ajca" path="res://data/units/arthur.tres" id="3_s6iqp"]
 [ext_resource type="AudioStream" uid="uid://05sgyew2ynsi" path="res://assets/sfx/buy.ogg" id="4_8esua"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_s6iqp"]
@@ -41,7 +41,7 @@ offset_bottom = 8.0
 focus_mode = 0
 script = ExtResource("1_w8wlp")
 player_stats = ExtResource("2_s6iqp")
-unit_stats = ExtResource("3_s6iqp")
+unit_stats = ExtResource("3_8esua")
 buy_sound = ExtResource("4_8esua")
 
 [node name="BackDrop" type="ColorRect" parent="."]

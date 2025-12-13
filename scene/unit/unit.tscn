@@ -1,43 +1,24 @@
-[gd_scene load_steps=15 format=3 uid="uid://bo1mxvq5ar06q"]
+[gd_scene load_steps=14 format=3 uid="uid://bo1mxvq5ar06q"]
 
 [ext_resource type="Script" uid="uid://dyhibvturgo2q" path="res://scene/unit/unit.gd" id="1_422ul"]
 [ext_resource type="Texture2D" uid="uid://cx1ivjobggp8n" path="res://assets/sprites/rogues.png" id="1_fmkjs"]
-[ext_resource type="Resource" uid="uid://et153h23ioel" path="res://data/units/bjorn.tres" id="2_qt1e6"]
+[ext_resource type="Resource" uid="uid://s8s4uksfstvw" path="res://data/units/robin.tres" id="2_8spbq"]
 [ext_resource type="Material" uid="uid://bb8m5fhpi4wqn" path="res://assets/shaders/2d_outline_shader.tres" id="3_855lp"]
 [ext_resource type="Script" uid="uid://dywq05j2k0py0" path="res://components/drag_and_drop.gd" id="4_3j4cu"]
 [ext_resource type="PackedScene" uid="uid://b6mqgtef78dnj" path="res://scene/tier_icon/tier_icon.tscn" id="5_0o3le"]
+[ext_resource type="Script" uid="uid://cd8mwkpsxt4o1" path="res://components/packed_sprite2d.gd" id="5_fyuri"]
 [ext_resource type="Script" uid="uid://dnxeo3m0dwe0n" path="res://components/velocity_based_rotation.gd" id="5_rkgpu"]
+[ext_resource type="PackedScene" uid="uid://4nt2nmu7d3e2" path="res://scene/health_bar/health_bar.tscn" id="6_o0kl2"]
 [ext_resource type="Script" uid="uid://cn7qt5ku8iorl" path="res://components/outline_highlighter.gd" id="7_0o3le"]
-[ext_resource type="Script" uid="uid://37ob25ia6teh" path="res://components/unit_animations.gd" id="9_glnlk"]
+[ext_resource type="PackedScene" uid="uid://cra257r8y55mf" path="res://scene/mana_bar/mana_bar.tscn" id="7_l8ug5"]
+[ext_resource type="Script" uid="uid://37ob25ia6teh" path="res://custom_nodes/unit_animations.gd" id="9_glnlk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fmkjs"]
 size = Vector2(36, 36)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fmkjs"]
-bg_color = Color(0.367079, 0.135921, 0.164006, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_422ul"]
-bg_color = Color(0.286275, 0.666667, 0.4, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.367079, 0.135921, 0.164006, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qt1e6"]
-bg_color = Color(0.367079, 0.135921, 0.164006, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3j4cu"]
-bg_color = Color(0.0769851, 0.641531, 0.921815, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.367079, 0.135921, 0.164006, 1)
-
 [node name="Unit" type="Area2D" groups=["units"]]
 script = ExtResource("1_422ul")
-stats = ExtResource("2_qt1e6")
+stats = ExtResource("2_8spbq")
 metadata/_edit_group_ = true
 
 [node name="Visuals" type="CanvasGroup" parent="."]
@@ -48,34 +29,22 @@ position = Vector2(16, 8)
 texture = ExtResource("1_fmkjs")
 region_enabled = true
 region_rect = Rect2(32, 96, 32, 32)
+script = ExtResource("5_fyuri")
+coordinates = Vector2i(1, 3)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(16, 8)
 shape = SubResource("RectangleShape2D_fmkjs")
 
-[node name="HealthBar" type="ProgressBar" parent="."]
-offset_left = 1.0
-offset_top = -20.0
-offset_right = 31.0
-offset_bottom = -14.0
-theme_override_styles/background = SubResource("StyleBoxFlat_fmkjs")
-theme_override_styles/fill = SubResource("StyleBoxFlat_422ul")
-value = 47.35
-show_percentage = false
+[node name="HealthBar" parent="." instance=ExtResource("6_o0kl2")]
 
-[node name="ManaBar" type="ProgressBar" parent="."]
-offset_left = 1.0
-offset_top = -15.0
-offset_right = 31.0
-offset_bottom = -11.0
-theme_override_styles/background = SubResource("StyleBoxFlat_qt1e6")
-theme_override_styles/fill = SubResource("StyleBoxFlat_3j4cu")
-show_percentage = false
+[node name="ManaBar" parent="." instance=ExtResource("7_l8ug5")]
 
 [node name="TierIcon" parent="." instance=ExtResource("5_0o3le")]
+z_index = 1
 offset_top = -12.0
 offset_bottom = -2.0
-stats = ExtResource("2_qt1e6")
+stats = ExtResource("2_8spbq")
 
 [node name="DragAndDrop" type="Node" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("4_3j4cu")

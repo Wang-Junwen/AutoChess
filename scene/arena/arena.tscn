@@ -1,17 +1,19 @@
-[gd_scene load_steps=21 format=4 uid="uid://cgkac45wxfbta"]
+[gd_scene load_steps=23 format=4 uid="uid://cgkac45wxfbta"]
 
 [ext_resource type="TileSet" uid="uid://da43mj62e07ui" path="res://scene/arena/tileset.tres" id="1_khgbj"]
 [ext_resource type="Script" uid="uid://d0y8fraa83x28" path="res://scene/arena/arena.gd" id="1_nq1he"]
 [ext_resource type="Texture2D" uid="uid://mbxv0ayrsu3d" path="res://assets/sprites/star_particle.png" id="2_bhymu"]
 [ext_resource type="AudioStream" uid="uid://dwse76yhsgxvm" path="res://assets/music/alexander_ehlers_twists.ogg" id="2_nbao3"]
-[ext_resource type="Script" uid="uid://b3q83wvy3ec26" path="res://components/play_area.gd" id="4_7y4jp"]
-[ext_resource type="Script" uid="uid://d2s5jauxbrnsq" path="res://components/unit_grid.gd" id="4_c6ks7"]
+[ext_resource type="Script" uid="uid://b3q83wvy3ec26" path="res://custom_nodes/play_area.gd" id="4_7y4jp"]
+[ext_resource type="Script" uid="uid://d2s5jauxbrnsq" path="res://custom_nodes/unit_grid.gd" id="4_c6ks7"]
 [ext_resource type="Script" uid="uid://cbt8ckj65tcl2" path="res://components/tile_highlighter.gd" id="6_yl6c4"]
-[ext_resource type="Script" uid="uid://dgoc5p373yitq" path="res://components/unit_mover.gd" id="8_afgd6"]
+[ext_resource type="Script" uid="uid://dgoc5p373yitq" path="res://custom_nodes/unit_mover.gd" id="8_afgd6"]
 [ext_resource type="AudioStream" uid="uid://xgrsj3clmat0" path="res://assets/sfx/unit_place.ogg" id="9_5wjs0"]
+[ext_resource type="Script" uid="uid://b5bomn77d152n" path="res://components/scene_spawner.gd" id="9_q3jel"]
 [ext_resource type="AudioStream" uid="uid://dubwbrp3e8hg3" path="res://assets/sfx/combine.ogg" id="10_he0dg"]
-[ext_resource type="Script" uid="uid://mgia8p28gu3k" path="res://components/unit_spawner.gd" id="11_il7u2"]
-[ext_resource type="Script" uid="uid://dbaq2pky4hctp" path="res://components/unit_combiner.gd" id="12_k35wp"]
+[ext_resource type="PackedScene" uid="uid://bo1mxvq5ar06q" path="res://scene/unit/unit.tscn" id="10_int32"]
+[ext_resource type="Script" uid="uid://mgia8p28gu3k" path="res://custom_nodes/unit_spawner.gd" id="11_il7u2"]
+[ext_resource type="Script" uid="uid://dbaq2pky4hctp" path="res://custom_nodes/unit_combiner.gd" id="12_k35wp"]
 [ext_resource type="PackedScene" uid="uid://dgabgcwyjare2" path="res://scene/sell_portal/sell_portal.tscn" id="12_xgae6"]
 [ext_resource type="Resource" uid="uid://kkfwn02pcskk" path="res://data/player/player_stats.tres" id="13_k35wp"]
 [ext_resource type="PackedScene" uid="uid://bjm6bwlw4jekk" path="res://scene/shop/shop.tscn" id="14_k35wp"]
@@ -127,6 +129,11 @@ tile = Vector2i(3, 0)
 script = ExtResource("11_il7u2")
 bench = NodePath("../Bench")
 game_area = NodePath("../GameArea")
+
+[node name="SceneSpawner" type="Node" parent="UnitSpawner"]
+script = ExtResource("9_q3jel")
+scene = ExtResource("10_int32")
+metadata/_custom_type_script = "uid://b5bomn77d152n"
 
 [node name="UnitMover" type="Node" parent="." node_paths=PackedStringArray("play_areas")]
 script = ExtResource("8_afgd6")

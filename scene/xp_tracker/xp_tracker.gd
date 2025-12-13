@@ -11,7 +11,7 @@ extends VBoxContainer
 func _ready():
 	player_stats.changed.connect(_on_player_stats_changed)
 	_on_player_stats_changed()
-	
+
 
 func _on_player_stats_changed():
 	if player_stats.level < 10:
@@ -24,9 +24,9 @@ func _on_player_stats_changed():
 
 func _set_xp_bar_values():
 	# 将xp转换为float，以便进行除法运算
-	var xp_req: float = player_stats.get_currentj_xp_requirement()
-	xp_label.text = "%s/%s" % [player_stats.xp, int(xp_req)]
-	progress_bar.value = player_stats.xp / xp_req * 100
+	var xp_req := player_stats.get_currentj_xp_requirement()
+	xp_label.text = "%s/%s" % [player_stats.xp, xp_req]
+	progress_bar.value = player_stats.xp / float(xp_req) * 100
 
 
 func _set_max_level_values():

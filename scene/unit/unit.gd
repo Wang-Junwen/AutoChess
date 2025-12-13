@@ -7,7 +7,7 @@ signal quick_sell_pressed
 @export var stats: UnitStats:
 	set = _set_stats
 
-@onready var skin: Sprite2D = $Visuals/Skin
+@onready var skin: PackedSprite2D = $Visuals/Skin
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var mana_bar: ProgressBar = $ManaBar
 @onready var tier_icon: TierIcon = $TierIcon
@@ -37,17 +37,14 @@ func _input(event: InputEvent) -> void:
 func _set_stats(new_stats: UnitStats) -> void:
 	stats = new_stats
 
-	if new_stats == null:
+	if new_stats == null or not is_instance_valid(tier_icon):
 		return
-
-	if not is_node_ready():
-		await ready
 
 	if not Engine.is_editor_hint():
 		stats = new_stats.duplicate()
 
 	# 设置皮肤贴图区域
-	skin.region_rect.position = Vector2(stats.skin_coordinates) * Arena.CELL_SIZE
+	skin.coordinates = stats.skin_coordinates
 	tier_icon.stats = stats
 
 
