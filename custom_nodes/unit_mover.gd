@@ -3,6 +3,7 @@ extends Node
 
 @export var play_areas: Array[PlayArea]
 @export var unit_place_sound: AudioStream
+@export var game_state: GameState
 
 
 func _ready() -> void:
@@ -69,8 +70,11 @@ func _on_unit_dropped(starting_position: Vector2, unit: Unit) -> void:
 
 	var dropped_area_index := _get_play_area_for_position(unit.get_global_mouse_position())
 	var old_area_index := _get_play_area_for_position(starting_position)
+	var invalid_drop := dropped_area_index == -1
+	var bench_to_game := old_area_index == 1 and dropped_area_index == 0
+	var is_battling := game_state.is_battling()
 
-	if dropped_area_index == -1:
+	if invalid_drop or (bench_to_game and is_battling):
 		_reset_unit_to_starting_position(starting_position, unit)
 		return
 

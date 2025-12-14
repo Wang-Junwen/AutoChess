@@ -8,9 +8,6 @@
 [resource]
 script = ExtResource("1_wtcgd")
 name = "Robin"
-rarity = 0
-gold_cost = 1
-tier = 1
 traits = Array[ExtResource("2_6kg50")]([ExtResource("3_krl74"), ExtResource("4_ke7c6")])
 pool_count = 9
 skin_coordinates = Vector2i(2, 0)

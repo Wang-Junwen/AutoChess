@@ -23,10 +23,10 @@ func get_random_unit_by_rarity(rarity: UnitStats.Rarity) -> UnitStats:
 	unit_pool.erase(picked_unit)
 	return picked_unit
 
-func add_unit(unit: UnitStats) -> void:
-	var combined_count := unit.get_combined_unit_count()
-	unit = unit.duplicate()
-	unit.tier = 1
+func add_unit(unit_stats: UnitStats) -> void:
+	var combined_count := unit_stats.get_combined_unit_count()
+	unit_stats = unit_stats.duplicate()
+	unit_stats.tier = 1
 
 	for i in combined_count:
-		unit_pool.append(unit)
+		unit_pool.append(unit_stats)
