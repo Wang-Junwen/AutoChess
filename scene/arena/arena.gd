@@ -9,12 +9,15 @@ const QUARTER_CELL_SIZE := Vector2(8, 8)
 @export var arena_music_stream: AudioStream
 @export var game_state: GameState
 
+@onready var game_area: PlayArea = $GameArea
+@onready var battle_unit_grid: UnitGrid = $GameArea/BattleUnitGrid
 @onready var sell_portal: SellPortal = $SellPortal
 @onready var unit_spawner: UnitSpawner = $UnitSpawner
 @onready var unit_mover: UnitMover = $UnitMover
 @onready var unit_combiner: UnitCombiner = $UnitCombiner
 @onready var shop: Shop = %Shop
 @onready var battle_mask: TileMapLayer = $GameArea/BattleMask
+
 
 func _ready():
 	# 连接单位生成器与单位移动器的信号
@@ -25,7 +28,9 @@ func _ready():
 	game_state.changed.connect(_update)
 
 	MusicPlayer.play(arena_music_stream)
+	UnitNavigation.initialize(battle_unit_grid, game_area)
 	_update()
+
 
 var tween: Tween
 
@@ -33,9 +38,9 @@ var tween: Tween
 func _update():
 	if tween:
 		tween.kill()
-	
+
 	tween = create_tween().set_parallel(false)
-	
+
 	if game_state.is_battling():
 		# 战斗开始：淡出遮罩
 		tween.tween_property(battle_mask, "modulate:a", 0.0, 0.3)

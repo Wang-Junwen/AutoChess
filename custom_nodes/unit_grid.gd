@@ -47,8 +47,10 @@ func get_all_units() -> Array:
 			unit_array.append(unit)
 	return unit_array
 
+
 func get_all_occupied_tiles() -> Array[Vector2i]:
 	return units.keys().filter(is_tile_occupied)
+
 
 # 检查坐标是否在网格范围内
 func _is_tile_valid(tile: Vector2i) -> bool:
@@ -96,6 +98,21 @@ func remove_unit(tile: Vector2i) -> void:
 
 	unit.tree_exited.disconnect(_on_unit_tree_exited)
 	units[tile] = null
+	unit_grid_changed.emit()
+
+
+# 移动单位到新格子
+func move_unit(old_tile: Vector2i, new_tile: Vector2i) -> void:
+	var unit = units[old_tile] as Node
+	if not unit:
+		return
+	if not _is_tile_valid(new_tile) or is_tile_occupied(new_tile):
+		return
+
+	unit.tree_exited.disconnect(_on_unit_tree_exited)
+	units[old_tile] = null
+	units[new_tile] = unit
+	unit.tree_exited.connect(_on_unit_tree_exited.bind(unit, new_tile))
 	unit_grid_changed.emit()
 
 

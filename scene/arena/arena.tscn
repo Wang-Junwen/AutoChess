@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://cgkac45wxfbta"]
+[gd_scene load_steps=28 format=4 uid="uid://cgkac45wxfbta"]
 
 [ext_resource type="TileSet" uid="uid://da43mj62e07ui" path="res://scene/arena/tileset.tres" id="1_khgbj"]
 [ext_resource type="Script" uid="uid://d0y8fraa83x28" path="res://scene/arena/arena.gd" id="1_nq1he"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://d2s5jauxbrnsq" path="res://custom_nodes/unit_grid.gd" id="4_c6ks7"]
 [ext_resource type="Script" uid="uid://cbt8ckj65tcl2" path="res://components/tile_highlighter.gd" id="6_yl6c4"]
 [ext_resource type="Script" uid="uid://dgoc5p373yitq" path="res://custom_nodes/unit_mover.gd" id="8_afgd6"]
+[ext_resource type="Script" uid="uid://d27ou8s6q16w2" path="res://custom_nodes/unit_navigation_debug.gd" id="9_4auyp"]
 [ext_resource type="AudioStream" uid="uid://xgrsj3clmat0" path="res://assets/sfx/unit_place.ogg" id="9_5wjs0"]
 [ext_resource type="Resource" uid="uid://botuw6voedwo3" path="res://data/game_state/game_state.tres" id="9_int32"]
 [ext_resource type="Script" uid="uid://b5bomn77d152n" path="res://components/scene_spawner.gd" id="9_q3jel"]
@@ -137,6 +138,15 @@ enabled = false
 play_area = NodePath("..")
 highlight_layer = NodePath("../Highlight")
 tile = Vector2i(3, 0)
+
+[node name="UnitNavigationDebug" type="Node2D" parent="." node_paths=PackedStringArray("game_area")]
+position = Vector2(160, 32)
+script = ExtResource("9_4auyp")
+color = Color(0.74509805, 0, 0, 0.3137255)
+path_colors = Array[Color]([Color(1, 0, 0.74509805, 1), Color(0, 0.70586336, 1.1551381e-06, 1), Color(0.18549654, 0.41620862, 1, 1), Color(4.861206e-06, 0.6029793, 0.531178, 1), Color(0.5803922, 0.6431373, 0, 1)])
+game_area = NodePath("../GameArea")
+metadata/_custom_type_script = "uid://d27ou8s6q16w2"
+metadata/_edit_lock_ = true
 
 [node name="UnitSpawner" type="Node" parent="." node_paths=PackedStringArray("bench", "game_area")]
 script = ExtResource("11_il7u2")

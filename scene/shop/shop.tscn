@@ -55,6 +55,7 @@ layout_mode = 2
 [node name="XPButton" parent="Bottom" instance=ExtResource("3_4k27i")]
 layout_mode = 2
 size_flags_vertical = 8
+focus_mode = 0
 
 [node name="RerollAndXPTracker" type="VBoxContainer" parent="Bottom"]
 layout_mode = 2
