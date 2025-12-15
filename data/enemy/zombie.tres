@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=3 format=3 uid="uid://cupvci1q5e2nn"]
+
+[ext_resource type="Script" uid="uid://fqwxtj8wkrsh" path="res://data/units/unit_stats.gd" id="1_1be36"]
+[ext_resource type="Script" uid="uid://uiwxicmd4uxg" path="res://data/traits/trait.gd" id="2_swep7"]
+
+[resource]
+script = ExtResource("1_1be36")
+name = "Zombie"
+team = 1
+metadata/_custom_type_script = "uid://fqwxtj8wkrsh"

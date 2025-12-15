@@ -21,7 +21,8 @@ func _ready() -> void:
 func _update_traits() -> void:
 	traits_to_update = current_traits.keys()
 	active_traits = []
-	var units = arena_grid.get_all_units()
+	var units: Array[Unit] = []
+	units.assign(arena_grid.get_all_units())
 	var traits = Trait.get_unique_traits_for_units(units)
 
 	for trait_data: Trait in traits:

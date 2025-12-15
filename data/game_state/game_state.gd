@@ -11,5 +11,10 @@ enum Phase {
 		current_phase = value
 		changed.emit()
 
+
+func start_battle() -> void:
+	current_phase = Phase.BATTLE
+
+
 func is_battling() -> bool:
 	return current_phase == Phase.BATTLE

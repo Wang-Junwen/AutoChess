@@ -10,7 +10,7 @@ signal unit_grid_changed()
 
 # 存储网格数据的字典: { Vector2i: Unit }
 # key: 网格坐标, value: Unit 实例
-var units: Dictionary[Vector2i, Unit]
+var units: Dictionary[Vector2i, Node]
 
 
 func _ready() -> void:
@@ -41,12 +41,14 @@ func get_first_empty_tile() -> Vector2i:
 
 # 获取所有单位
 func get_all_units() -> Array:
-	var unit_array: Array[Unit] = []
-	for unit: Unit in units.values():
+	var unit_array: Array[Node] = []
+	for unit in units.values():
 		if unit:
 			unit_array.append(unit)
 	return unit_array
 
+func get_all_occupied_tiles() -> Array[Vector2i]:
+	return units.keys().filter(is_tile_occupied)
 
 # 检查坐标是否在网格范围内
 func _is_tile_valid(tile: Vector2i) -> bool:
@@ -54,7 +56,7 @@ func _is_tile_valid(tile: Vector2i) -> bool:
 
 
 # 获取指定格子的单位，如果为空或越界则返回 null
-func get_unit_at(tile: Vector2i) -> Unit:
+func get_unit_at(tile: Vector2i) -> Node:
 	if not _is_tile_valid(tile):
 		return null
 	return units.get(tile)
@@ -62,7 +64,7 @@ func get_unit_at(tile: Vector2i) -> Unit:
 
 # 反向查找：根据单位实例查找其坐标
 # 如果单位不在网格中，返回 Vector2i.MIN
-func get_unit_tile(unit: Unit) -> Vector2i:
+func get_unit_tile(unit: Node) -> Vector2i:
 	for tile in units:
 		if units[tile] == unit:
 			return tile
@@ -72,7 +74,7 @@ func get_unit_tile(unit: Unit) -> Vector2i:
 
 
 # 将单位放置到指定格子
-func add_unit(tile: Vector2i, unit: Unit) -> void:
+func add_unit(tile: Vector2i, unit: Node) -> void:
 	if not _is_tile_valid(tile):
 		push_warning("UnitGrid: Cannot add unit to invalid tile %s (Grid Size: %s)" % [tile, size])
 		return
@@ -98,7 +100,7 @@ func remove_unit(tile: Vector2i) -> void:
 
 
 # sell_unit后，当单位从树中移除时，将其从网格中移除
-func _on_unit_tree_exited(unit: Unit, tile: Vector2i) -> void:
+func _on_unit_tree_exited(unit: Node, tile: Vector2i) -> void:
 	# 添加判断是否是queue_free触发的 tree_exited
 	if unit.is_queued_for_deletion():
 		units[tile] = null
