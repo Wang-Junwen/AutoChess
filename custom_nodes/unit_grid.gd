@@ -2,7 +2,7 @@ class_name UnitGrid
 extends Node2D
 
 # 当单位在网格上的状态发生变化时发出信号
-signal unit_grid_changed()
+signal unit_grid_changed
 
 # 网格尺寸（例如 Vector2i(8, 8) 表示 8x8 的棋盘）
 # 用于判断坐标是否越界

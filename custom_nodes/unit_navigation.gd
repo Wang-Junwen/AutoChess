@@ -53,6 +53,6 @@ func get_next_position(moving_unit: BattleUnit, target_unit: BattleUnit) -> Vect
 	var next_tile := path[1]
 	battle_grid.move_unit(unit_tile, next_tile)
 	# battle_grid的unit_grid_changed会触发update_occupied_tiles，但是这里还是手动修改一下
-	astar_grid.set_point_solid(unit_tile, true)
+	astar_grid.set_point_solid(next_tile, true)
 
 	return game_area.get_global_from_tile(next_tile)

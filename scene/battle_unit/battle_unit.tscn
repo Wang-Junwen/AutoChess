@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b1u1e3vr3fbl7"]
+[gd_scene load_steps=16 format=3 uid="uid://b1u1e3vr3fbl7"]
 
 [ext_resource type="Script" uid="uid://bn342kaif3kv" path="res://scene/battle_unit/battle_unit.gd" id="1_uhcsa"]
 [ext_resource type="Texture2D" uid="uid://cx1ivjobggp8n" path="res://assets/sprites/rogues.png" id="1_yooxk"]
@@ -7,38 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://4nt2nmu7d3e2" path="res://scene/health_bar/health_bar.tscn" id="3_vckhc"]
 [ext_resource type="PackedScene" uid="uid://cra257r8y55mf" path="res://scene/mana_bar/mana_bar.tscn" id="4_hd3fd"]
 [ext_resource type="PackedScene" uid="uid://b6mqgtef78dnj" path="res://scene/tier_icon/tier_icon.tscn" id="5_hqm4r"]
+[ext_resource type="Script" uid="uid://dq36qdn1qfm3d" path="res://components/finite_state_machine.gd" id="8_hd3fd"]
+[ext_resource type="Script" uid="uid://cyaskx4flreov" path="res://scene/battle_unit/ai/unit_ai.gd" id="9_hqm4r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wrbs3"]
 size = Vector2(36, 36)
-
-[sub_resource type="Animation" id="Animation_yooxk"]
-resource_name = "attack"
-length = 0.2
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Skin:rotation")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [-0.2617993877991494, 0.3490658503988659, 0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Skin:scale")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.15, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(1.2, 0.8), Vector2(0.8, 1.2), Vector2(0.9, 1.1), Vector2(1, 1)]
-}
 
 [sub_resource type="Animation" id="Animation_uhcsa"]
 length = 0.001
@@ -89,6 +62,35 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_yooxk"]
+resource_name = "attack"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Skin:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-0.2617993877991494, 0.3490658503988659, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Skin:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1.2, 0.8), Vector2(0.8, 1.2), Vector2(0.9, 1.1), Vector2(1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_vckhc"]
@@ -203,6 +205,24 @@ offset_left = -15.0
 offset_top = -22.0
 offset_right = -5.0
 offset_bottom = -12.0
+
+[node name="FSMDebugLabel" type="Label" parent="."]
+offset_left = -65.0
+offset_top = -48.0
+offset_right = 65.0
+offset_bottom = -30.0
+horizontal_alignment = 1
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("debug_label")]
+script = ExtResource("8_hd3fd")
+debug_label = NodePath("../FSMDebugLabel")
+metadata/_custom_type_script = "uid://dq36qdn1qfm3d"
+
+[node name="UnitAI" type="Node" parent="." node_paths=PackedStringArray("actor", "fsm")]
+script = ExtResource("9_hqm4r")
+actor = NodePath("..")
+fsm = NodePath("../FiniteStateMachine")
+metadata/_custom_type_script = "uid://cyaskx4flreov"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
