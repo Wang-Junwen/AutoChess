@@ -6,32 +6,20 @@ extends Area2D
 
 @onready var skin: PackedSprite2D = $Visuals/Skin
 @onready var custom_skin: AnimatedSprite2D = $Visuals/CustomSkin
+@onready var detect_range: DetectRange = $DetectRange
+@onready var hurt_box: HurtBox = $HurtBox
 @onready var health_bar := $HealthBar
 @onready var mana_bar := $ManaBar
 @onready var tier_icon: TierIcon = $TierIcon
+@onready var target_finder: TargetFinder = $TargetFinder
 @onready var unit_ai: UnitAI = $UnitAI
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var use_custom_animation: bool = false
 
 
-func _set_stats(value: UnitStats) -> void:
-	stats = value
-
-	if not stats or not is_instance_valid(tier_icon):
-		return
-
-	stats = value.duplicate()
-	collision_layer = stats.team + 1
-
-	tier_icon.stats = stats
-	health_bar.stats = stats
-	mana_bar.stats = stats
-	health_bar.show()
-	mana_bar.show()
-
-	_set_skin()
-	play_idle()
+func _ready() -> void:
+	hurt_box.hurt.connect(_on_hurt)
 
 
 # --- 统一动画接口 ---
@@ -69,6 +57,30 @@ func get_attack_animation_length() -> float:
 	return animation_player.get_animation("attack").length
 
 
+func _set_stats(value: UnitStats) -> void:
+	stats = value
+
+	if not stats or not is_instance_valid(tier_icon):
+		return
+
+	stats = value.duplicate()
+	# player层级为1，enemy层级为2
+	collision_layer = 1 << stats.team
+	hurt_box.collision_layer = 1 << stats.team
+	hurt_box.collision_mask = 2 >> stats.team
+
+	_set_skin()
+	detect_range.stats = stats
+	tier_icon.stats = stats
+	health_bar.stats = stats
+	mana_bar.stats = stats
+	health_bar.show()
+	mana_bar.show()
+	stats.health_reached_zero.connect(queue_free)
+
+	
+
+
 func _set_skin() -> void:
 	# 判断是否有专属动画资源
 	if stats.custom_sprite_frames:
@@ -95,3 +107,8 @@ func _set_skin() -> void:
 		skin.coordinates = stats.skin_coordinates
 		# 进入战斗后，翻转玩家角色面向右方
 		skin.flip_h = stats.team == stats.Team.PLAYER
+
+	play_idle()
+
+func _on_hurt(damage: int) -> void:
+	stats.health -= damage

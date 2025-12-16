@@ -18,4 +18,5 @@ max_mana = 50
 staring_mana = 25
 attack_damage = Array[int]([4, 6, 10])
 attack_speed = 1.25
+attack_range = 1
 metadata/_custom_type_script = "uid://fqwxtj8wkrsh"

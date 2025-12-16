@@ -10,4 +10,5 @@ team = 1
 max_health = Array[int]([18, 22, 25])
 attack_damage = Array[int]([2, 4, 6])
 attack_speed = 0.7
+attack_range = 1
 metadata/_custom_type_script = "uid://fqwxtj8wkrsh"

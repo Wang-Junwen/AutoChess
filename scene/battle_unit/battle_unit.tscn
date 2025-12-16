@@ -1,16 +1,22 @@
-[gd_scene load_steps=16 format=3 uid="uid://b1u1e3vr3fbl7"]
+[gd_scene load_steps=20 format=3 uid="uid://b1u1e3vr3fbl7"]
 
 [ext_resource type="Script" uid="uid://bn342kaif3kv" path="res://scene/battle_unit/battle_unit.gd" id="1_uhcsa"]
 [ext_resource type="Texture2D" uid="uid://cx1ivjobggp8n" path="res://assets/sprites/rogues.png" id="1_yooxk"]
+[ext_resource type="Resource" uid="uid://eacxidprrab" path="res://data/units/harry.tres" id="2_lrunx"]
 [ext_resource type="Script" uid="uid://cd8mwkpsxt4o1" path="res://components/packed_sprite2d.gd" id="2_uhcsa"]
-[ext_resource type="Resource" uid="uid://dxvw84m7qbyji" path="res://data/units/samurai.tres" id="2_wrbs3"]
 [ext_resource type="PackedScene" uid="uid://4nt2nmu7d3e2" path="res://scene/health_bar/health_bar.tscn" id="3_vckhc"]
 [ext_resource type="PackedScene" uid="uid://cra257r8y55mf" path="res://scene/mana_bar/mana_bar.tscn" id="4_hd3fd"]
 [ext_resource type="PackedScene" uid="uid://b6mqgtef78dnj" path="res://scene/tier_icon/tier_icon.tscn" id="5_hqm4r"]
 [ext_resource type="SpriteFrames" uid="uid://diyi7e8a4bt4" path="res://assets/sprites/char_animation/samurai/samurai_animations.tres" id="5_wrbs3"]
+[ext_resource type="Script" uid="uid://tt4xnja7utd6" path="res://custom_nodes/detect_range.gd" id="6_lrunx"]
+[ext_resource type="Script" uid="uid://bv6h3v13je5vo" path="res://components/hurtbox.gd" id="6_wrbs3"]
 [ext_resource type="Script" uid="uid://cyaskx4flreov" path="res://scene/battle_unit/ai/unit_ai.gd" id="9_hqm4r"]
+[ext_resource type="Script" uid="uid://cnxx13mu355sa" path="res://custom_nodes/target_finder.gd" id="11_iuj73"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wrbs3"]
+size = Vector2(36, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lrunx"]
 size = Vector2(36, 36)
 
 [sub_resource type="Animation" id="Animation_uhcsa"]
@@ -173,13 +179,14 @@ _data = {
 }
 
 [node name="BattleUnit" type="Area2D"]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_uhcsa")
-stats = ExtResource("2_wrbs3")
+stats = ExtResource("2_lrunx")
 
 [node name="Visuals" type="Node2D" parent="."]
 
 [node name="Skin" type="Sprite2D" parent="Visuals"]
-visible = false
 texture = ExtResource("1_yooxk")
 region_enabled = true
 region_rect = Rect2(64, 32, 32, 32)
@@ -188,12 +195,32 @@ coordinates = Vector2i(2, 1)
 metadata/_custom_type_script = "uid://cd8mwkpsxt4o1"
 
 [node name="CustomSkin" type="AnimatedSprite2D" parent="Visuals"]
+visible = false
 position = Vector2(0, -16)
 sprite_frames = ExtResource("5_wrbs3")
-animation = &"attack"
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_wrbs3")
+
+[node name="DetectRange" type="Area2D" parent="." node_paths=PackedStringArray("col_shape")]
+script = ExtResource("6_lrunx")
+col_shape = NodePath("CollisionShape2D")
+base_range_size = 36.0
+metadata/_custom_type_script = "uid://tt4xnja7utd6"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRange"]
+debug_color = Color(0.65447843, 0.32604685, 0.9989913, 0.41960785)
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("6_wrbs3")
+metadata/_custom_type_script = "uid://bv6h3v13je5vo"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("RectangleShape2D_lrunx")
+debug_color = Color(0.99215686, 0.011764706, 0, 0.41960785)
 
 [node name="HealthBar" parent="." instance=ExtResource("3_vckhc")]
 offset_left = -15.0
@@ -220,6 +247,11 @@ offset_top = -48.0
 offset_right = 65.0
 offset_bottom = -30.0
 horizontal_alignment = 1
+
+[node name="TargetFinder" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("11_iuj73")
+actor = NodePath("..")
+metadata/_custom_type_script = "uid://cnxx13mu355sa"
 
 [node name="UnitAI" type="Node" parent="." node_paths=PackedStringArray("debug_label", "actor")]
 script = ExtResource("9_hqm4r")
