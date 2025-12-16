@@ -24,6 +24,8 @@ func _ready():
 	if not Engine.is_editor_hint():
 		drag_and_drop.drag_started.connect(_on_drag_started)
 		drag_and_drop.drag_canceled.connect(_on_drag_canceled)
+	health_bar.hide()
+	mana_bar.hide()
 
 
 func _input(event: InputEvent) -> void:

@@ -2,7 +2,7 @@ class_name BattleUnit
 extends Area2D
 
 @export var stats: UnitStats:
-	set = set_stats
+	set = _set_stats
 
 @onready var skin: PackedSprite2D = $Visuals/Skin
 @onready var custom_skin: AnimatedSprite2D = $Visuals/CustomSkin
@@ -15,7 +15,7 @@ extends Area2D
 var use_custom_animation: bool = false
 
 
-func set_stats(value: UnitStats) -> void:
+func _set_stats(value: UnitStats) -> void:
 	stats = value
 
 	if not stats or not is_instance_valid(tier_icon):
@@ -24,38 +24,13 @@ func set_stats(value: UnitStats) -> void:
 	stats = value.duplicate()
 	collision_layer = stats.team + 1
 
-	# skin.texture = UnitStats.TEAM_SPRITESHEET[stats.team]
-	# skin.coordinates = stats.skin_coordinates
-	# # 进入战斗后，翻转玩家角色面向右方
-	# skin.flip_h = stats.team == stats.Team.PLAYER
 	tier_icon.stats = stats
+	health_bar.stats = stats
+	mana_bar.stats = stats
+	health_bar.show()
+	mana_bar.show()
 
-	# 判断是否有专属动画资源
-	if stats.custom_sprite_frames:
-		use_custom_animation = true
-
-		# 切换显示
-		skin.hide()
-		custom_skin.show()
-
-		# 配置专属动画
-		custom_skin.sprite_frames = stats.custom_sprite_frames
-		custom_skin.position = stats.visual_offset # 应用偏移
-		custom_skin.flip_h = stats.team != stats.Team.PLAYER
-
-	else:
-		use_custom_animation = false
-
-		# 切换显示
-		skin.show()
-		custom_skin.hide()
-
-		# 配置通用动画
-		skin.texture = UnitStats.TEAM_SPRITESHEET[stats.team]
-		skin.coordinates = stats.skin_coordinates
-		# 进入战斗后，翻转玩家角色面向右方
-		skin.flip_h = stats.team == stats.Team.PLAYER
-
+	_set_skin()
 	play_idle()
 
 
@@ -92,3 +67,31 @@ func get_attack_animation_length() -> float:
 			return count / speed if speed > 0 else 0.2
 		return 0.2
 	return animation_player.get_animation("attack").length
+
+
+func _set_skin() -> void:
+	# 判断是否有专属动画资源
+	if stats.custom_sprite_frames:
+		use_custom_animation = true
+
+		# 切换显示
+		skin.hide()
+		custom_skin.show()
+
+		# 配置专属动画
+		custom_skin.sprite_frames = stats.custom_sprite_frames
+		custom_skin.position = stats.visual_offset # 应用偏移
+		custom_skin.flip_h = stats.team != stats.Team.PLAYER
+
+	else:
+		use_custom_animation = false
+
+		# 切换显示
+		skin.show()
+		custom_skin.hide()
+
+		# 配置通用动画
+		skin.texture = UnitStats.TEAM_SPRITESHEET[stats.team]
+		skin.coordinates = stats.skin_coordinates
+		# 进入战斗后，翻转玩家角色面向右方
+		skin.flip_h = stats.team == stats.Team.PLAYER
