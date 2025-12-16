@@ -78,8 +78,6 @@ func _set_stats(value: UnitStats) -> void:
 	mana_bar.show()
 	stats.health_reached_zero.connect(queue_free)
 
-	
-
 
 func _set_skin() -> void:
 	# 判断是否有专属动画资源
@@ -109,6 +107,7 @@ func _set_skin() -> void:
 		skin.flip_h = stats.team == stats.Team.PLAYER
 
 	play_idle()
+
 
 func _on_hurt(damage: int) -> void:
 	stats.health -= damage
