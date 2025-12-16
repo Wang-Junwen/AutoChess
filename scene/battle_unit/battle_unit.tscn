@@ -1,12 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://b1u1e3vr3fbl7"]
+[gd_scene load_steps=17 format=3 uid="uid://b1u1e3vr3fbl7"]
 
 [ext_resource type="Script" uid="uid://bn342kaif3kv" path="res://scene/battle_unit/battle_unit.gd" id="1_uhcsa"]
 [ext_resource type="Texture2D" uid="uid://cx1ivjobggp8n" path="res://assets/sprites/rogues.png" id="1_yooxk"]
 [ext_resource type="Script" uid="uid://cd8mwkpsxt4o1" path="res://components/packed_sprite2d.gd" id="2_uhcsa"]
-[ext_resource type="Resource" uid="uid://s8s4uksfstvw" path="res://data/units/robin.tres" id="2_vckhc"]
+[ext_resource type="Resource" uid="uid://dxvw84m7qbyji" path="res://data/units/samurai.tres" id="2_wrbs3"]
 [ext_resource type="PackedScene" uid="uid://4nt2nmu7d3e2" path="res://scene/health_bar/health_bar.tscn" id="3_vckhc"]
 [ext_resource type="PackedScene" uid="uid://cra257r8y55mf" path="res://scene/mana_bar/mana_bar.tscn" id="4_hd3fd"]
 [ext_resource type="PackedScene" uid="uid://b6mqgtef78dnj" path="res://scene/tier_icon/tier_icon.tscn" id="5_hqm4r"]
+[ext_resource type="SpriteFrames" uid="uid://diyi7e8a4bt4" path="res://assets/sprites/char_animation/samurai/samurai_animations.tres" id="5_wrbs3"]
 [ext_resource type="Script" uid="uid://dq36qdn1qfm3d" path="res://components/finite_state_machine.gd" id="8_hd3fd"]
 [ext_resource type="Script" uid="uid://cyaskx4flreov" path="res://scene/battle_unit/ai/unit_ai.gd" id="9_hqm4r"]
 
@@ -18,7 +19,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Skin:rotation")
+tracks/0/path = NodePath("Visuals/Skin:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -30,7 +31,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Skin:scale")
+tracks/1/path = NodePath("Visuals/Skin:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -42,7 +43,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Skin:modulate")
+tracks/2/path = NodePath("Visuals/Skin:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -54,7 +55,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Skin:skew")
+tracks/3/path = NodePath("Visuals/Skin:skew")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -71,7 +72,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Skin:rotation")
+tracks/0/path = NodePath("Visuals/Skin:rotation")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -83,7 +84,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Skin:scale")
+tracks/1/path = NodePath("Visuals/Skin:scale")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -100,7 +101,7 @@ step = 0.02
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Skin:scale")
+tracks/0/path = NodePath("Visuals/Skin:scale")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -112,7 +113,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Skin:modulate")
+tracks/1/path = NodePath("Visuals/Skin:modulate")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -130,7 +131,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Skin:rotation")
+tracks/0/path = NodePath("Visuals/Skin:rotation")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -142,7 +143,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Skin:scale")
+tracks/1/path = NodePath("Visuals/Skin:scale")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -154,7 +155,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Skin:skew")
+tracks/2/path = NodePath("Visuals/Skin:skew")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -174,15 +175,23 @@ _data = {
 
 [node name="BattleUnit" type="Area2D"]
 script = ExtResource("1_uhcsa")
-stats = ExtResource("2_vckhc")
+stats = ExtResource("2_wrbs3")
 
-[node name="Skin" type="Sprite2D" parent="."]
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="Skin" type="Sprite2D" parent="Visuals"]
+visible = false
 texture = ExtResource("1_yooxk")
 region_enabled = true
 region_rect = Rect2(64, 32, 32, 32)
 script = ExtResource("2_uhcsa")
 coordinates = Vector2i(2, 1)
 metadata/_custom_type_script = "uid://cd8mwkpsxt4o1"
+
+[node name="CustomSkin" type="AnimatedSprite2D" parent="Visuals"]
+position = Vector2(0, -16)
+sprite_frames = ExtResource("5_wrbs3")
+animation = &"attack"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_wrbs3")

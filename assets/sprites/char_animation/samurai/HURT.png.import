@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cx1ivjobggp8n"
-path="res://.godot/imported/rogues.png-5ecb4cb7c8a7414d456dac3bb5c24bb4.ctex"
+uid="uid://dfaf3sogi52vo"
+path="res://.godot/imported/HURT.png-9f4a41585560ddb87bc65b70d6daa1ca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/rogues.png"
-dest_files=["res://.godot/imported/rogues.png-5ecb4cb7c8a7414d456dac3bb5c24bb4.ctex"]
+source_file="res://assets/sprites/char_animation/samurai/HURT.png"
+dest_files=["res://.godot/imported/HURT.png-9f4a41585560ddb87bc65b70d6daa1ca.ctex"]
 
 [params]
 

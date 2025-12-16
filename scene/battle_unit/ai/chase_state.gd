@@ -38,7 +38,7 @@ func chase() -> void:
 		return
 
 	tween = actor_unit.create_tween()
-	tween.tween_callback(actor_unit.animation_player.play.bind("move"))
+	tween.tween_callback(actor_unit.play_move)
 	# TODO: 之后每个单位可能会有不同的移动速度
 	tween.tween_property(actor_unit, "global_position", new_post, UnitStats.MOVE_ONE_TILE_SPEED)
 	tween.finished.connect(

@@ -47,7 +47,6 @@ func _set_stats(new_stats: UnitStats) -> void:
 	skin.coordinates = stats.skin_coordinates
 	tier_icon.stats = stats
 
-
 func _on_mouse_entered() -> void:
 	if drag_and_drop.dragging:
 		return

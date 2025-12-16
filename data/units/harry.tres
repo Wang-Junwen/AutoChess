@@ -11,5 +11,6 @@ name = "Harry"
 rarity = 1
 gold_cost = 2
 traits = Array[ExtResource("2_sykcs")]([ExtResource("3_8lkw4"), ExtResource("4_bj5lt")])
+pool_count = 9
 skin_coordinates = Vector2i(2, 2)
 metadata/_custom_type_script = "uid://fqwxtj8wkrsh"

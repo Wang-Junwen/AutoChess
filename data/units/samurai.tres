@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="UnitStats" load_steps=6 format=3 uid="uid://dxvw84m7qbyji"]
+
+[ext_resource type="Script" uid="uid://fqwxtj8wkrsh" path="res://data/units/unit_stats.gd" id="1_gdswi"]
+[ext_resource type="SpriteFrames" uid="uid://diyi7e8a4bt4" path="res://assets/sprites/char_animation/samurai/samurai_animations.tres" id="1_xnsiv"]
+[ext_resource type="Script" uid="uid://uiwxicmd4uxg" path="res://data/traits/trait.gd" id="2_g2wj1"]
+[ext_resource type="Resource" uid="uid://hlu8y0kfwpuo" path="res://data/traits/human.tres" id="4_toaf8"]
+[ext_resource type="Resource" uid="uid://d1cid2vojeijd" path="res://data/traits/noble.tres" id="6_4g0q3"]
+
+[resource]
+script = ExtResource("1_gdswi")
+name = "Samurai"
+rarity = 1
+gold_cost = 2
+traits = Array[ExtResource("2_g2wj1")]([ExtResource("4_toaf8"), ExtResource("6_4g0q3")])
+pool_count = 9
+skin_coordinates = Vector2i(5, 0)
+custom_sprite_frames = ExtResource("1_xnsiv")
+visual_offset = Vector2(0, -16)
+metadata/_custom_type_script = "uid://fqwxtj8wkrsh"

@@ -38,6 +38,8 @@ const MOVE_ONE_TILE_SPEED := 1.0 # 移动一格所需的时间（秒）
 
 @export_category("Visuals")
 @export var skin_coordinates: Vector2i
+@export var custom_sprite_frames: SpriteFrames # Samurai 这种特殊英雄用这个 (可选)
+@export var visual_offset: Vector2 = Vector2.ZERO
 
 @export_category("Battle")
 @export var team: Team
