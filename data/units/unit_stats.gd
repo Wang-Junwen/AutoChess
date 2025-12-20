@@ -62,6 +62,10 @@ const MOVE_ONE_TILE_SPEED := 1.0 # 移动一格所需的时间（秒）
 @export var armor: int # 物理抗性
 @export var magic_resist: int # 魔法抗性
 @export_range(1, MAX_ATTACK_RANGE) var attack_range: int
+@export var melee_attack: PackedScene = preload("res://scenes/_effects/attack_smear_effect.tscn")
+@export var ranged_attack: PackedScene
+@export var ability: PackedScene
+@export var auto_attack_sound: AudioStream
 
 var health: int:
 	set = _set_health
@@ -99,6 +103,21 @@ func get_time_between_attacks() -> float:
 
 func is_melee() -> bool:
 	return attack_range == 1
+
+
+# player:1, enemy:2
+func get_self_collision_layer() -> int:
+	return 1 << team
+
+
+# player:2, enemy:1
+func get_target_collision_layer() -> int:
+	return 2 >> team
+
+
+# player: 4, enemy: 8
+func get_detect_collision_layer() -> int:
+	return 1 << (team + 2)
 
 
 func _set_health(value: int) -> void:

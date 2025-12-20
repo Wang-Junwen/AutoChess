@@ -76,6 +76,14 @@ func _perpare_fight() -> void:
 		new_zombie.stats.team = UnitStats.Team.ENEMY
 		_setup_battle_unit(zombie_pos, new_zombie)
 
+	UnitNavigation.update_occupied_tiles()
+	var battle_units := get_tree().get_nodes_in_group("player_units") + get_tree().get_nodes_in_group("enemy_units")
+	# 启动所有战斗单位ai，打乱顺序，以便敌我单位能够随机行动
+	battle_units.shuffle()
+
+	for battle_unit in battle_units:
+		battle_unit.unit_ai.enabled = true
+
 
 func _on_battle_unit_died() -> void:
 	if not get_tree() or not game_state.is_battling():

@@ -17,8 +17,8 @@ config/icon="uid://5krfx1wipux0"
 
 [autoload]
 
-MusicPlayer="*res://scene/audio_player/music_player.tscn"
-SFXPlayer="*res://scene/audio_player/sfx_player.tscn"
+MusicPlayer="*res://scenes/audio_player/music_player.tscn"
+SFXPlayer="*res://scenes/audio_player/sfx_player.tscn"
 UnitNavigation="*res://custom_nodes/unit_navigation.gd"
 
 [display]

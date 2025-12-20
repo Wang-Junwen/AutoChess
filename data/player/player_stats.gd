@@ -46,7 +46,7 @@ const ROLL_CHANCES := {
 	set = _set_gold
 @export_range(0, 99) var xp: int:
 	set = _set_xp
-@export_range(1, 10) var level: int:
+@export_range(1, MAX_LEVEL) var level: int:
 	set = _set_level
 
 
@@ -58,8 +58,12 @@ func get_random_rarity_for_level() -> UnitStats.Rarity:
 
 
 func get_currentj_xp_requirement() -> int:
-	var next_level = clampi(level + 1, 1, 10)
+	var next_level = clampi(level + 1, 1, MAX_LEVEL)
 	return XP_REQUIREMENTS[next_level]
+
+
+func is_max_level() -> bool:
+	return level == MAX_LEVEL
 
 
 func add_xp(value: int) -> void:
@@ -75,12 +79,12 @@ func _set_xp(value: int) -> void:
 	xp = value
 	emit_changed()
 
-	if level == 10:
+	if is_max_level():
 		return
 
 	var xp_req: int = get_currentj_xp_requirement()
 
-	while level < 10 and xp >= xp_req:
+	while level < MAX_LEVEL and xp >= xp_req:
 		xp -= xp_req
 		level += 1
 		xp_req = get_currentj_xp_requirement()

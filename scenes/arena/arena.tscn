@@ -1,0 +1,225 @@
+[gd_scene load_steps=28 format=4 uid="uid://cgkac45wxfbta"]
+
+[ext_resource type="TileSet" uid="uid://da43mj62e07ui" path="res://scenes/arena/tileset.tres" id="1_khgbj"]
+[ext_resource type="Script" uid="uid://d0y8fraa83x28" path="res://scenes/arena/arena.gd" id="1_nq1he"]
+[ext_resource type="Texture2D" uid="uid://mbxv0ayrsu3d" path="res://assets/sprites/star_particle.png" id="2_bhymu"]
+[ext_resource type="AudioStream" uid="uid://dwse76yhsgxvm" path="res://assets/music/alexander_ehlers_twists.ogg" id="2_nbao3"]
+[ext_resource type="Script" uid="uid://b3q83wvy3ec26" path="res://custom_nodes/play_area.gd" id="4_7y4jp"]
+[ext_resource type="Script" uid="uid://d2s5jauxbrnsq" path="res://custom_nodes/unit_grid.gd" id="4_c6ks7"]
+[ext_resource type="Script" uid="uid://cbt8ckj65tcl2" path="res://components/tile_highlighter.gd" id="6_yl6c4"]
+[ext_resource type="Script" uid="uid://dgoc5p373yitq" path="res://custom_nodes/unit_mover.gd" id="8_afgd6"]
+[ext_resource type="Script" uid="uid://d27ou8s6q16w2" path="res://custom_nodes/unit_navigation_debug.gd" id="9_4auyp"]
+[ext_resource type="AudioStream" uid="uid://xgrsj3clmat0" path="res://assets/sfx/unit_place.ogg" id="9_5wjs0"]
+[ext_resource type="Resource" uid="uid://botuw6voedwo3" path="res://data/game_state/game_state.tres" id="9_int32"]
+[ext_resource type="Script" uid="uid://b5bomn77d152n" path="res://components/scene_spawner.gd" id="9_q3jel"]
+[ext_resource type="AudioStream" uid="uid://dubwbrp3e8hg3" path="res://assets/sfx/combine.ogg" id="10_he0dg"]
+[ext_resource type="PackedScene" uid="uid://bo1mxvq5ar06q" path="res://scenes/unit/unit.tscn" id="10_int32"]
+[ext_resource type="Script" uid="uid://mgia8p28gu3k" path="res://custom_nodes/unit_spawner.gd" id="11_il7u2"]
+[ext_resource type="Script" uid="uid://dbaq2pky4hctp" path="res://custom_nodes/unit_combiner.gd" id="12_k35wp"]
+[ext_resource type="PackedScene" uid="uid://dgabgcwyjare2" path="res://scenes/sell_portal/sell_portal.tscn" id="12_xgae6"]
+[ext_resource type="Resource" uid="uid://kkfwn02pcskk" path="res://data/player/player_stats.tres" id="13_k35wp"]
+[ext_resource type="PackedScene" uid="uid://bjm6bwlw4jekk" path="res://scenes/shop/shop.tscn" id="14_k35wp"]
+[ext_resource type="PackedScene" uid="uid://hhpsatd7dm8q" path="res://scenes/team_size_ui/team_size_ui.tscn" id="15_5wjs0"]
+[ext_resource type="Script" uid="uid://b310hb8mvkiiq" path="res://custom_nodes/battle_handler.gd" id="16_jfbf7"]
+[ext_resource type="PackedScene" uid="uid://b1u1e3vr3fbl7" path="res://scenes/battle_unit/battle_unit.tscn" id="17_4auyp"]
+[ext_resource type="PackedScene" uid="uid://bpevw7liskp8w" path="res://scenes/traits/traits.tscn" id="17_nbao3"]
+[ext_resource type="PackedScene" uid="uid://b03cx5xhlk55g" path="res://scenes/start_battle_button/start_battle_button.tscn" id="21_2qna1"]
+
+[sub_resource type="Curve" id="Curve_nq1he"]
+_data = [Vector2(0.00166667, 0.000609994), 0.0, 0.0, 0, 0, Vector2(0.183333, 1), 0.0, 0.0, 0, 0, Vector2(0.818333, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0204393), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_vf884"]
+curve = SubResource("Curve_nq1he")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_c6ks7"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(320, 1, 1)
+spread = 180.0
+initial_velocity_min = 20.0
+initial_velocity_max = 30.0
+angular_velocity_min = 20.0
+angular_velocity_max = 40.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.1
+scale_max = 0.2
+scale_curve = SubResource("CurveTexture_vf884")
+color = Color(1, 1, 1, 0.494118)
+
+[node name="Arena" type="Node2D"]
+script = ExtResource("1_nq1he")
+arena_music_stream = ExtResource("2_nbao3")
+game_state = ExtResource("9_int32")
+metadata/_edit_lock_ = true
+
+[node name="Visuals" type="Node2D" parent="."]
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="Background" type="TileMapLayer" parent="Visuals"]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAYAAAAAAAEAAAAAAAYAAAAAAAIAAAAAAAYAAAAAAAMAAAAAAAYAAAAAAAQAAAAAAAYAAAAAAAUAAAAAAAYAAAAAAAYAAAAAAAYAAAAAAAcAAAAAAAYAAAAAAAgAAAAAAAYAAAAAAAkAAAAAAAYAAAAAAAoAAAAAAAYAAAAAAAsAAAAAAAYAAAABAAAAAAAAAAYAAAABAAEAAAAAAAYAAAABAAIAAAAAAAYAAAABAAMAAAAAAAYAAAABAAQAAAAAAAYAAAABAAUAAAAAAAYAAAABAAYAAAAAAAYAAAABAAcAAAAAAAYAAAABAAgAAAAAAAYAAAABAAkAAAAAAAYAAAABAAoAAAAAAAYAAAABAAsAAAAAAAYAAAACAAAAAAAAAAYAAAACAAEAAAAAAAYAAAACAAIAAAAAAAYAAAACAAMAAAAAAAYAAAACAAQAAAAAAAYAAAACAAUAAAAAAAYAAAACAAYAAAAAAAYAAAACAAcAAAAAAAYAAAACAAgAAAAAAAYAAAACAAkAAAAAAAYAAAACAAoAAAAAAAYAAAACAAsAAAAAAAYAAAADAAAAAAAAAAYAAAADAAEAAAAAAAYAAAADAAIAAAAAAAYAAAADAAMAAAAAAAYAAAADAAQAAAAAAAYAAAADAAUAAAAAAAYAAAADAAYAAAAAAAYAAAADAAcAAAAAAAYAAAADAAgAAAAAAAYAAAADAAkAAAAAAAYAAAADAAoAAAAAAAYAAAADAAsAAAAAAAYAAAAEAAAAAAAAAAYAAAAEAAEAAAAAAAYAAAAEAAIAAAAAAAYAAAAEAAMAAAAAAAYAAAAEAAQAAAAAAAYAAAAEAAUAAAAAAAYAAAAEAAYAAAAAAAYAAAAEAAcAAAAAAAYAAAAEAAgAAAAAAAYAAAAEAAkAAAAAAAYAAAAEAAoAAAAAAAYAAAAEAAsAAAAAAAYAAAAFAAAAAAAAAAYAAAAFAAEAAAAAAAYAAAAFAAIAAAAAAAYAAAAFAAMAAAAAAAYAAAAFAAQAAAAAAAYAAAAFAAUAAAAAAAYAAAAFAAYAAAAAAAYAAAAFAAcAAAAAAAYAAAAFAAgAAAAAAAYAAAAFAAkAAAAAAAYAAAAFAAoAAAAAAAYAAAAFAAsAAAAAAAYAAAAGAAAAAAAAAAYAAAAGAAEAAAAAAAYAAAAGAAIAAAAAAAYAAAAGAAMAAAAAAAYAAAAGAAQAAAAAAAYAAAAGAAUAAAAAAAYAAAAGAAYAAAAAAAYAAAAGAAcAAAAAAAYAAAAGAAgAAAAAAAYAAAAGAAkAAAAAAAYAAAAGAAoAAAAAAAYAAAAGAAsAAAAAAAYAAAAHAAAAAAAAAAYAAAAHAAEAAAAAAAYAAAAHAAIAAAAAAAYAAAAHAAMAAAAAAAYAAAAHAAQAAAAAAAYAAAAHAAUAAAAAAAYAAAAHAAYAAAAAAAYAAAAHAAcAAAAAAAYAAAAHAAgAAAAAAAYAAAAHAAkAAAAAAAYAAAAHAAoAAAAAAAYAAAAHAAsAAAAAAAYAAAAIAAAAAAAAAAYAAAAIAAEAAAAAAAYAAAAIAAIAAAAAAAYAAAAIAAMAAAAAAAYAAAAIAAQAAAAAAAYAAAAIAAUAAAAAAAYAAAAIAAYAAAAAAAYAAAAIAAcAAAAAAAYAAAAIAAgAAAAAAAYAAAAIAAkAAAAAAAYAAAAIAAoAAAAAAAYAAAAIAAsAAAAAAAYAAAAJAAAAAAAAAAYAAAAJAAEAAAAAAAYAAAAJAAIAAAAAAAYAAAAJAAMAAAAAAAYAAAAJAAQAAAAAAAYAAAAJAAUAAAAAAAYAAAAJAAYAAAAAAAYAAAAJAAcAAAAAAAYAAAAJAAgAAAAAAAYAAAAJAAkAAAAAAAYAAAAJAAoAAAAAAAYAAAAJAAsAAAAAAAYAAAAKAAAAAAAAAAYAAAAKAAEAAAAAAAYAAAAKAAIAAAAAAAYAAAAKAAMAAAAAAAYAAAAKAAQAAAAAAAYAAAAKAAUAAAAAAAYAAAAKAAYAAAAAAAYAAAAKAAcAAAAAAAYAAAAKAAgAAAAAAAYAAAAKAAkAAAAAAAYAAAAKAAoAAAAAAAYAAAAKAAsAAAAAAAYAAAALAAAAAAAAAAYAAAALAAEAAAAAAAYAAAALAAIAAAAAAAYAAAALAAMAAAAAAAYAAAALAAQAAAAAAAYAAAALAAUAAAAAAAYAAAALAAYAAAAAAAYAAAALAAcAAAAAAAYAAAALAAgAAAAAAAYAAAALAAkAAAAAAAYAAAALAAoAAAAAAAYAAAALAAsAAAAAAAYAAAAMAAAAAAAAAAYAAAAMAAEAAAAAAAYAAAAMAAIAAAAAAAYAAAAMAAMAAAAAAAYAAAAMAAQAAAAAAAYAAAAMAAUAAAAAAAYAAAAMAAYAAAAAAAYAAAAMAAcAAAAAAAYAAAAMAAgAAAAAAAYAAAAMAAkAAAAAAAYAAAAMAAoAAAAAAAYAAAAMAAsAAAAAAAYAAAANAAAAAAAAAAYAAAANAAEAAAAAAAYAAAANAAIAAAAAAAYAAAANAAMAAAAAAAYAAAANAAQAAAAAAAYAAAANAAUAAAAAAAYAAAANAAYAAAAAAAYAAAANAAcAAAAAAAYAAAANAAgAAAAAAAYAAAANAAkAAAAAAAYAAAANAAoAAAAAAAYAAAANAAsAAAAAAAYAAAAOAAAAAAAAAAYAAAAOAAEAAAAAAAYAAAAOAAIAAAAAAAYAAAAOAAMAAAAAAAYAAAAOAAQAAAAAAAYAAAAOAAUAAAAAAAYAAAAOAAYAAAAAAAYAAAAOAAcAAAAAAAYAAAAOAAgAAAAAAAYAAAAOAAkAAAAAAAYAAAAOAAoAAAAAAAYAAAAOAAsAAAAAAAYAAAAPAAAAAAAAAAYAAAAPAAEAAAAAAAYAAAAPAAIAAAAAAAYAAAAPAAMAAAAAAAYAAAAPAAQAAAAAAAYAAAAPAAUAAAAAAAYAAAAPAAYAAAAAAAYAAAAPAAcAAAAAAAYAAAAPAAgAAAAAAAYAAAAPAAkAAAAAAAYAAAAPAAoAAAAAAAYAAAAPAAsAAAAAAAYAAAAQAAAAAAAAAAYAAAAQAAEAAAAAAAYAAAAQAAIAAAAAAAYAAAAQAAMAAAAAAAYAAAAQAAQAAAAAAAYAAAAQAAUAAAAAAAYAAAAQAAYAAAAAAAYAAAAQAAcAAAAAAAYAAAAQAAgAAAAAAAYAAAAQAAkAAAAAAAYAAAAQAAoAAAAAAAYAAAAQAAsAAAAAAAYAAAARAAAAAAAAAAYAAAARAAEAAAAAAAYAAAARAAIAAAAAAAYAAAARAAMAAAAAAAYAAAARAAQAAAAAAAYAAAARAAUAAAAAAAYAAAARAAYAAAAAAAYAAAARAAcAAAAAAAYAAAARAAgAAAAAAAYAAAARAAkAAAAAAAYAAAARAAoAAAAAAAYAAAARAAsAAAAAAAYAAAASAAAAAAAAAAYAAAASAAEAAAAAAAYAAAASAAIAAAAAAAYAAAASAAMAAAAAAAYAAAASAAQAAAAAAAYAAAASAAUAAAAAAAYAAAASAAYAAAAAAAYAAAASAAcAAAAAAAYAAAASAAgAAAAAAAYAAAASAAkAAAAAAAYAAAASAAoAAAAAAAYAAAASAAsAAAAAAAYAAAATAAAAAAAAAAYAAAATAAUAAAAAAAYAAAATAAYAAAAAAAYAAAATAAcAAAAAAAYAAAATAAgAAAAAAAYAAAATAAkAAAAAAAYAAAATAAoAAAAAAAYAAAATAAsAAAAAAAYAAAATAAEAAAAAAAYAAAATAAIAAAAAAAYAAAATAAMAAAAAAAYAAAATAAQAAAAAAAYAAAA=")
+tile_set = ExtResource("1_khgbj")
+
+[node name="Props" type="TileMapLayer" parent="Visuals"]
+modulate = Color(1, 1, 1, 0.45098)
+tile_map_data = PackedByteArray("AAABAAIAAAABABIAAAACAAoAAAALABMAAAADAAIAAAAKABMAAAAQAAMAAAAGABMAAAARAAsAAAAPABMAAAASAAMAAAACABMAAAASAAcAAAACABMAAAATAAUAAAADABMAAAAAAAAAAAABABIAAAAAAAYAAAAIABMAAAABAAAAAAAKABMAAAADAAQAAAAOABMAAAA=")
+tile_set = ExtResource("1_khgbj")
+
+[node name="Walls" type="TileMapLayer" parent="Visuals"]
+tile_map_data = PackedByteArray("AAAFAAAAAAABAAEAAAAGAAAAAAABAAEAAAAOAAAAAAABAAEAAAAIAAAAAAABAAEAAAAHAAAAAAABAAEAAAAJAAAAAAABAAEAAAAKAAAAAAABAAEAAAALAAAAAAABAAEAAAAMAAAAAAABAAEAAAANAAAAAAABAAEAAAAEAAAAAAAAAAEAAAAEAAEAAAAAAAEAAAAEAAIAAAAAAAEAAAAEAAMAAAAAAAEAAAAEAAQAAAAAAAEAAAAEAAUAAAAAAAEAAAAEAAYAAAAAAAEAAAAEAAcAAAAAAAEAAAAEAAgAAAABAAEAAAAPAAAAAAAAAAEAAAAPAAEAAAAAAAEAAAAPAAIAAAAAAAEAAAAPAAMAAAAAAAEAAAAPAAQAAAAAAAEAAAAPAAUAAAAAAAEAAAAPAAYAAAAAAAEAAAAPAAcAAAAAAAEAAAAPAAgAAAABAAEAAAAFAAgAAAABAAEAAAAGAAgAAAABAAEAAAAHAAgAAAABAAEAAAAIAAgAAAABAAEAAAAJAAgAAAABAAEAAAAKAAgAAAABAAEAAAALAAgAAAABAAEAAAAMAAgAAAABAAEAAAANAAgAAAABAAEAAAAOAAgAAAABAAEAAAAEAAsAAAABAAAAAAAFAAsAAAABAAAAAAAGAAsAAAABAAAAAAAHAAsAAAABAAAAAAAIAAsAAAABAAAAAAAJAAsAAAABAAAAAAAKAAsAAAABAAAAAAALAAsAAAABAAAAAAAMAAsAAAABAAAAAAANAAsAAAABAAAAAAAOAAsAAAABAAAAAAAPAAsAAAABAAAAAAAEAAoAAAAAAAAAAAAPAAoAAAAAAAAAAAA=")
+tile_set = ExtResource("1_khgbj")
+
+[node name="DustParticles" type="GPUParticles2D" parent="Visuals"]
+z_index = 99
+position = Vector2(320, 180)
+amount = 20
+texture = ExtResource("2_bhymu")
+lifetime = 6.0
+process_material = SubResource("ParticleProcessMaterial_c6ks7")
+
+[node name="GameArea" type="TileMapLayer" parent="." node_paths=PackedStringArray("unit_grid", "tile_highlighter")]
+position = Vector2(160, 32)
+tile_map_data = PackedByteArray("AAABAAAAAAAAAAwAAAAAAAEAAAABAAwAAAABAAIAAAAAAAwAAAAAAAMAAAAAAAwAAAABAAQAAAACAAwAAAAAAAUAAAAAAAwAAAABAAYAAAAAAAwAAAACAAEAAAAAAAwAAAACAAMAAAAAAAwAAAACAAUAAAAAAAwAAAADAAAAAAAAAAwAAAADAAIAAAAAAAwAAAADAAQAAAAAAAwAAAADAAYAAAACAAwAAAAEAAEAAAACAAwAAAAEAAMAAAABAAwAAAAEAAUAAAAAAAwAAAAFAAAAAAADAAwAAAAFAAIAAAAAAAwAAAAFAAQAAAAAAAwAAAAFAAYAAAAAAAwAAAAGAAEAAAAAAAwAAAAGAAMAAAAAAAwAAAAGAAUAAAAAAAwAAAAHAAAAAAAAAAwAAAAHAAIAAAADAAwAAAAHAAQAAAAAAAwAAAAHAAYAAAABAAwAAAAIAAEAAAAAAAwAAAAIAAMAAAAAAAwAAAAIAAUAAAAAAAwAAAAJAAAAAAABAAwAAAAJAAIAAAAAAAwAAAAJAAQAAAAAAAwAAAAJAAYAAAAAAAwAAAA=")
+tile_set = ExtResource("1_khgbj")
+script = ExtResource("4_7y4jp")
+unit_grid = NodePath("ArenaUnitGrid")
+tile_highlighter = NodePath("TileHighlighter")
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="Decor" type="TileMapLayer" parent="GameArea"]
+modulate = Color(1, 1, 1, 0.486275)
+tile_map_data = PackedByteArray("AAAGAAAAAAAAABUAAAACAAYAAAAAABUAAAAHAAMAAAABABYAAAAAAAQAAAABABYAAAA=")
+tile_set = ExtResource("1_khgbj")
+
+[node name="Highlight" type="TileMapLayer" parent="GameArea"]
+tile_set = ExtResource("1_khgbj")
+
+[node name="ArenaUnitGrid" type="Node2D" parent="GameArea"]
+script = ExtResource("4_c6ks7")
+size = Vector2i(4, 7)
+
+[node name="BattleUnitGrid" type="Node2D" parent="GameArea"]
+script = ExtResource("4_c6ks7")
+size = Vector2i(10, 7)
+
+[node name="TileHighlighter" type="Node" parent="GameArea" node_paths=PackedStringArray("play_area", "highlight_layer")]
+script = ExtResource("6_yl6c4")
+enabled = false
+play_area = NodePath("..")
+highlight_layer = NodePath("../Highlight")
+tile = Vector2i(3, 0)
+
+[node name="BattleMask" type="TileMapLayer" parent="GameArea"]
+tile_map_data = PackedByteArray("AAAEAAAAAAADAAkAAAAEAAEAAAADAAkAAAAEAAIAAAADAAkAAAAEAAMAAAAGABAAAAAEAAQAAAADAAkAAAAEAAUAAAADAAkAAAAEAAYAAAADAAkAAAAFAAAAAAAAAAYAAAAFAAEAAAAAAAYAAAAFAAIAAAAAAAYAAAAFAAMAAAAAAAYAAAAFAAQAAAAAAAYAAAAFAAUAAAAAAAYAAAAFAAYAAAAAAAYAAAAGAAAAAAAAAAYAAAAGAAEAAAAAAAYAAAAGAAIAAAAAAAYAAAAGAAUAAAAAAAYAAAAGAAYAAAAAAAYAAAAHAAAAAAAAAAYAAAAHAAEAAAAAAAYAAAAHAAIAAAAAAAYAAAAHAAUAAAAAAAYAAAAHAAYAAAAAAAYAAAAIAAAAAAAAAAYAAAAIAAEAAAAAAAYAAAAIAAIAAAAAAAYAAAAIAAMAAAAAAAYAAAAIAAQAAAAAAAYAAAAIAAUAAAAAAAYAAAAIAAYAAAAAAAYAAAAJAAAAAAAAAAYAAAAJAAEAAAAAAAYAAAAJAAIAAAAAAAYAAAAJAAMAAAAAAAYAAAAJAAQAAAAAAAYAAAAJAAUAAAAAAAYAAAAJAAYAAAAAAAYAAAAGAAMAAAAAAAYAAAAGAAQAAAAAAAYAAAAHAAMAAAAAAAYAAAAHAAQAAAAAAAYAAAA=")
+tile_set = ExtResource("1_khgbj")
+
+[node name="Bench" type="TileMapLayer" parent="." node_paths=PackedStringArray("unit_grid", "tile_highlighter")]
+position = Vector2(160, 320)
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAsAAAABAAAAAAAAAAcAAAACAAAAAAAAAAsAAAADAAAAAAAAAAcAAAAEAAAAAAAAAAsAAAAFAAAAAAAAAAcAAAAGAAAAAAAAAAsAAAAHAAAAAAAAAAcAAAAIAAAAAAAAAAsAAAAJAAAAAAAAAAcAAAA=")
+tile_set = ExtResource("1_khgbj")
+script = ExtResource("4_7y4jp")
+unit_grid = NodePath("BenchUnitGrid")
+tile_highlighter = NodePath("TileHighlighter")
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="Highlight" type="TileMapLayer" parent="Bench"]
+tile_set = ExtResource("1_khgbj")
+
+[node name="BenchUnitGrid" type="Node2D" parent="Bench"]
+script = ExtResource("4_c6ks7")
+size = Vector2i(10, 1)
+
+[node name="TileHighlighter" type="Node" parent="Bench" node_paths=PackedStringArray("play_area", "highlight_layer")]
+script = ExtResource("6_yl6c4")
+enabled = false
+play_area = NodePath("..")
+highlight_layer = NodePath("../Highlight")
+tile = Vector2i(3, 0)
+
+[node name="UnitNavigationDebug" type="Node2D" parent="." node_paths=PackedStringArray("game_area")]
+position = Vector2(160, 32)
+script = ExtResource("9_4auyp")
+color = Color(0.74509805, 0, 0, 0.3137255)
+path_colors = Array[Color]([Color(1, 0, 0.74509805, 1), Color(0, 0.70586336, 1.1551381e-06, 1), Color(0.18549654, 0.41620862, 1, 1), Color(4.861206e-06, 0.6029793, 0.531178, 1), Color(0.5803922, 0.6431373, 0, 1)])
+game_area = NodePath("../GameArea")
+metadata/_custom_type_script = "uid://d27ou8s6q16w2"
+metadata/_edit_lock_ = true
+
+[node name="UnitSpawner" type="Node" parent="." node_paths=PackedStringArray("bench", "game_area")]
+script = ExtResource("11_il7u2")
+bench = NodePath("../Bench")
+game_area = NodePath("../GameArea")
+game_state = ExtResource("9_int32")
+
+[node name="SceneSpawner" type="Node" parent="UnitSpawner"]
+script = ExtResource("9_q3jel")
+scene = ExtResource("10_int32")
+metadata/_custom_type_script = "uid://b5bomn77d152n"
+
+[node name="UnitMover" type="Node" parent="." node_paths=PackedStringArray("play_areas")]
+script = ExtResource("8_afgd6")
+play_areas = [NodePath("../GameArea"), NodePath("../Bench")]
+unit_place_sound = ExtResource("9_5wjs0")
+game_state = ExtResource("9_int32")
+
+[node name="UnitCombiner" type="Node" parent="." node_paths=PackedStringArray("buffer_timer")]
+script = ExtResource("12_k35wp")
+buffer_timer = NodePath("BufferTimer")
+combine_sound = ExtResource("10_he0dg")
+metadata/_custom_type_script = "uid://dbaq2pky4hctp"
+
+[node name="BufferTimer" type="Timer" parent="UnitCombiner"]
+one_shot = true
+
+[node name="BattleHandler" type="Node" parent="." node_paths=PackedStringArray("game_area", "game_area_unit_grid", "battle_unit_grid")]
+script = ExtResource("16_jfbf7")
+game_state = ExtResource("9_int32")
+game_area = NodePath("../GameArea")
+game_area_unit_grid = NodePath("../GameArea/ArenaUnitGrid")
+battle_unit_grid = NodePath("../GameArea/BattleUnitGrid")
+metadata/_custom_type_script = "uid://b310hb8mvkiiq"
+
+[node name="SceneSpawner" type="Node" parent="BattleHandler"]
+script = ExtResource("9_q3jel")
+scene = ExtResource("17_4auyp")
+metadata/_custom_type_script = "uid://b5bomn77d152n"
+
+[node name="SellPortal" parent="." instance=ExtResource("12_xgae6")]
+position = Vector2(80, 288)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Shop" parent="UI" instance=ExtResource("14_k35wp")]
+unique_name_in_owner = true
+metadata/_edit_use_anchors_ = true
+
+[node name="TeamSizeUI" parent="UI" node_paths=PackedStringArray("arena_grid") instance=ExtResource("15_5wjs0")]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -2.0
+offset_top = 4.0
+offset_right = 44.0
+offset_bottom = 28.0
+grow_horizontal = 2
+player_stast = ExtResource("13_k35wp")
+arena_grid = NodePath("../../GameArea/ArenaUnitGrid")
+
+[node name="Traits" parent="UI" node_paths=PackedStringArray("arena_grid") instance=ExtResource("17_nbao3")]
+arena_grid = NodePath("../../GameArea/ArenaUnitGrid")
+
+[node name="StartBattleButton" parent="UI" node_paths=PackedStringArray("arena_grid") instance=ExtResource("21_2qna1")]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -36.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = 28.0
+grow_horizontal = 2
+game_state = ExtResource("9_int32")
+player_stats = ExtResource("13_k35wp")
+arena_grid = NodePath("../../GameArea/ArenaUnitGrid")

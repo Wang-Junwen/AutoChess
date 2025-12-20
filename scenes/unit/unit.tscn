@@ -1,0 +1,72 @@
+[gd_scene load_steps=14 format=3 uid="uid://bo1mxvq5ar06q"]
+
+[ext_resource type="Script" uid="uid://dyhibvturgo2q" path="res://scenes/unit/unit.gd" id="1_422ul"]
+[ext_resource type="Texture2D" uid="uid://cx1ivjobggp8n" path="res://assets/sprites/rogues.png" id="1_fmkjs"]
+[ext_resource type="Resource" uid="uid://dxvw84m7qbyji" path="res://data/units/samurai.tres" id="2_fyuri"]
+[ext_resource type="Material" uid="uid://bb8m5fhpi4wqn" path="res://assets/shaders/2d_outline_shader.tres" id="3_855lp"]
+[ext_resource type="Script" uid="uid://dywq05j2k0py0" path="res://components/drag_and_drop.gd" id="4_3j4cu"]
+[ext_resource type="PackedScene" uid="uid://b6mqgtef78dnj" path="res://scenes/tier_icon/tier_icon.tscn" id="5_0o3le"]
+[ext_resource type="Script" uid="uid://cd8mwkpsxt4o1" path="res://components/packed_sprite2d.gd" id="5_fyuri"]
+[ext_resource type="Script" uid="uid://dnxeo3m0dwe0n" path="res://components/velocity_based_rotation.gd" id="5_rkgpu"]
+[ext_resource type="PackedScene" uid="uid://4nt2nmu7d3e2" path="res://scenes/health_bar/health_bar.tscn" id="6_o0kl2"]
+[ext_resource type="Script" uid="uid://cn7qt5ku8iorl" path="res://components/outline_highlighter.gd" id="7_0o3le"]
+[ext_resource type="PackedScene" uid="uid://cra257r8y55mf" path="res://scenes/mana_bar/mana_bar.tscn" id="7_l8ug5"]
+[ext_resource type="Script" uid="uid://37ob25ia6teh" path="res://custom_nodes/unit_animations.gd" id="9_glnlk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fmkjs"]
+size = Vector2(36, 36)
+
+[node name="Unit" type="Area2D" groups=["units"]]
+script = ExtResource("1_422ul")
+stats = ExtResource("2_fyuri")
+metadata/_edit_group_ = true
+
+[node name="Visuals" type="CanvasGroup" parent="."]
+material = ExtResource("3_855lp")
+
+[node name="Skin" type="Sprite2D" parent="Visuals"]
+position = Vector2(16, 8)
+texture = ExtResource("1_fmkjs")
+region_enabled = true
+region_rect = Rect2(160, 0, 32, 32)
+script = ExtResource("5_fyuri")
+coordinates = Vector2i(5, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(16, 8)
+shape = SubResource("RectangleShape2D_fmkjs")
+
+[node name="HealthBar" parent="." instance=ExtResource("6_o0kl2")]
+
+[node name="ManaBar" parent="." instance=ExtResource("7_l8ug5")]
+
+[node name="TierIcon" parent="." instance=ExtResource("5_0o3le")]
+z_index = 1
+offset_top = -12.0
+offset_bottom = -2.0
+stats = ExtResource("2_fyuri")
+
+[node name="DragAndDrop" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("4_3j4cu")
+target = NodePath("..")
+
+[node name="VelocityBasedRotation" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("5_rkgpu")
+target = NodePath("../Visuals/Skin")
+lerp_seconds = 0.3
+rotation_multiplier = 40
+x_velocity_threshold = 60.0
+
+[node name="OutlineHighlighter" type="Node" parent="." node_paths=PackedStringArray("visuals")]
+script = ExtResource("7_0o3le")
+visuals = NodePath("../Visuals")
+outline_color = Color(1, 1, 1, 1)
+outline_thickness = 2
+
+[node name="UnitAnimations" type="Node" parent="." node_paths=PackedStringArray("unit")]
+script = ExtResource("9_glnlk")
+unit = NodePath("..")
+metadata/_custom_type_script = "uid://37ob25ia6teh"
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

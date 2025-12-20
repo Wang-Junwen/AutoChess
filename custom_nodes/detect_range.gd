@@ -7,8 +7,8 @@ extends Area2D
 	set(value):
 		stats = value
 		# 侦测范围图层为 player：4， enemy：8； mask为player：2， enemy：1
-		collision_layer = 1 << (stats.team + 2)
-		collision_mask = 2 >> stats.team
+		collision_layer = stats.get_detect_collision_layer()
+		collision_mask = stats.get_target_collision_layer()
 
 		var shape := CircleShape2D.new()
 		shape.radius = base_range_size * stats.attack_range
