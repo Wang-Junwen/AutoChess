@@ -14,6 +14,7 @@ extends Area2D
 @onready var attack_timer: Timer = $AttackTimer
 @onready var flip_sprite: FlipSprite = $FlipSprite
 @onready var melee_attack: Attack = $MeleeAttack
+@onready var ranged_attack: Attack = $RangedAttack
 @onready var target_finder: TargetFinder = $TargetFinder
 @onready var unit_ai: UnitAI = $UnitAI
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -75,13 +76,15 @@ func _set_stats(value: UnitStats) -> void:
 
 	stats = value.duplicate()
 	# player层级为1，enemy层级为2
-	collision_layer = stats.get_self_collision_layer()
-	hurt_box.collision_layer = stats.get_self_collision_layer()
-	hurt_box.collision_mask = stats.get_target_collision_layer()
+	collision_layer = stats.get_team_collision_layer()
+	hurt_box.collision_layer = stats.get_team_collision_layer()
+	hurt_box.collision_mask = stats.get_team_collision_mask()
 
 	_set_skin()
 
 	melee_attack.spawner.scene = stats.melee_attack
+	ranged_attack.spawner.scene = stats.ranged_attack
+
 	detect_range.stats = stats
 	tier_icon.stats = stats
 	health_bar.stats = stats

@@ -106,12 +106,12 @@ func is_melee() -> bool:
 
 
 # player:1, enemy:2
-func get_self_collision_layer() -> int:
+func get_team_collision_layer() -> int:
 	return 1 << team
 
 
 # player:2, enemy:1
-func get_target_collision_layer() -> int:
+func get_team_collision_mask() -> int:
 	return 2 >> team
 
 

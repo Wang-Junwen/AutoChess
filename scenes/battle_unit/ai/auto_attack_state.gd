@@ -41,11 +41,16 @@ func _attack() -> void:
 	if actor_unit.stats.is_melee():
 		var hitbox := actor_unit.melee_attack.attack(target.global_position) as HitBox
 		hitbox.damage = actor_unit.stats.get_attack_damage()
-		hitbox.collision_layer = actor_unit.stats.get_self_collision_layer()
-		hitbox.collision_mask = actor_unit.stats.get_target_collision_layer()
+		hitbox.collision_layer = actor_unit.stats.get_team_collision_layer()
+		hitbox.collision_mask = actor_unit.stats.get_team_collision_mask()
 		actor_unit.on_attack_finish(_on_attack_hit)
 	else:
-		print("TODO spawn ranged projectile")
+		var projectile := actor_unit.ranged_attack.attack(target.global_position) as Projectile
+		projectile.target = target.global_position
+		projectile.hitbox.collision_layer = actor_unit.stats.get_team_collision_layer()
+		projectile.hitbox.collision_mask = actor_unit.stats.get_team_collision_mask()
+		projectile.hitbox.damage = actor_unit.stats.get_attack_damage()
+		projectile.hitbox.hit.connect(_on_attack_hit)
 
 
 func _on_attack_hit() -> void:
