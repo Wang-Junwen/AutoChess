@@ -2,7 +2,7 @@ class_name UnitStats
 extends Resource
 
 signal health_reached_zero
-signal mana_bar_fill
+signal mana_bar_filled
 
 enum Rarity {
 	COMMON,
@@ -133,7 +133,7 @@ func _set_mana(value: int) -> void:
 	emit_changed()
 
 	if mana >= max_mana and max_mana > 0:
-		mana_bar_fill.emit()
+		mana_bar_filled.emit()
 
 
 func _to_string() -> String:

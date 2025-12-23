@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="UnitStats" load_steps=9 format=3 uid="uid://s8s4uksfstvw"]
+[gd_resource type="Resource" script_class="UnitStats" load_steps=10 format=3 uid="uid://s8s4uksfstvw"]
 
 [ext_resource type="AudioStream" uid="uid://cdv0vbmrwb3jl" path="res://assets/sfx/robin_1.wav" id="1_4y5el"]
+[ext_resource type="PackedScene" uid="uid://dyto7ry140op" path="res://scenes/_abilities/hail_of_arrow.tscn" id="1_def0a"]
 [ext_resource type="Script" uid="uid://fqwxtj8wkrsh" path="res://data/units/unit_stats.gd" id="1_wtcgd"]
 [ext_resource type="Script" uid="uid://uiwxicmd4uxg" path="res://data/traits/trait.gd" id="2_6kg50"]
 [ext_resource type="PackedScene" uid="uid://racys38wfyg6" path="res://scenes/_effects/attack_smear_effect.tscn" id="2_def0a"]
@@ -28,5 +29,6 @@ attack_damage = Array[int]([2, 3, 4])
 attack_speed = 1.0
 attack_range = 4
 ranged_attack = ExtResource("3_mwi2g")
+ability = ExtResource("1_def0a")
 auto_attack_sound = SubResource("AudioStreamRandomizer_t6fkn")
 metadata/_custom_type_script = "uid://fqwxtj8wkrsh"

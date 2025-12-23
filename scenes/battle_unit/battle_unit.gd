@@ -12,6 +12,7 @@ extends Area2D
 @onready var mana_bar := $ManaBar
 @onready var tier_icon: TierIcon = $TierIcon
 @onready var attack_timer: Timer = $AttackTimer
+@onready var ability_spawner: SceneSpawner = $AbilitySpawner
 @onready var flip_sprite: FlipSprite = $FlipSprite
 @onready var melee_attack: Attack = $MeleeAttack
 @onready var ranged_attack: Attack = $RangedAttack
@@ -48,6 +49,13 @@ func play_attack() -> void:
 		animation_player.play("attack")
 
 
+func play_cast() -> void:
+	if use_custom_animation:
+		custom_skin.play("cast")
+	else:
+		animation_player.play("cast")
+
+
 func on_attack_finish(callback: Callable) -> void:
 	if use_custom_animation:
 		custom_skin.animation_finished.connect(callback, CONNECT_ONE_SHOT)
@@ -82,6 +90,7 @@ func _set_stats(value: UnitStats) -> void:
 
 	_set_skin()
 
+	ability_spawner.scene = stats.ability
 	melee_attack.spawner.scene = stats.melee_attack
 	ranged_attack.spawner.scene = stats.ranged_attack
 
